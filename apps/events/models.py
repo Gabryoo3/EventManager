@@ -11,9 +11,10 @@ class Event(BaseModel):
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='organized_events')
     description = models.TextField(null=False, blank=False)
     date = models.DateField(null=False, blank=False)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT,null=False, blank=False)
-    location = models.ForeignKey(Address, on_delete=models.PROTECT, related_name='events')
-    seats = models.PositiveIntegerField(default=0)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,null=False, blank=False, related_name='events') #for many-to-one (one category can have many events)
+    #but an event has only one category
+    location = models.ForeignKey(Address, on_delete=models.PROTECT, related_name='events',null=False, blank=False)
+    seats = models.PositiveIntegerField(default=0, null=False, blank=False)
 
 
 
