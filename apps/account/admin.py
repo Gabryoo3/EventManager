@@ -9,17 +9,18 @@ class AddressAdmin(admin.ModelAdmin):
     search_fields = ('street_address', 'city', 'state', 'zip_code')
 @admin.register(Account)
 class AccountAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'birth_date', 'is_organizer')
+    list_display = ('username', 'email', 'first_name', 'last_name', 'birth_date', 'is_organizer', 'created_at')
     list_filter = ('is_organizer',)
+    readonly_fields = tuple(UserAdmin.readonly_fields or ()) + ('created_at',)
 
     fieldsets = tuple(UserAdmin.fieldsets or ()) + (
         ('Extra Info', {
-            'fields': ('birth_date', 'address', 'phone', 'is_organizer')
+            'fields': ('birth_date', 'address', 'phone','is_organizer', 'created_at')
         }),
     )
     add_fieldsets = tuple(UserAdmin.add_fieldsets or ()) + (
         ('Extra Info', {
             'classes': ('wide',),
-            'fields': ('first_name', 'last_name', 'birth_date', 'email', 'phone', 'address', 'is_organizer')
+            'fields': ('first_name', 'last_name', 'birth_date', 'email', 'phone', 'address', 'is_organizer',)
         }),
     )
