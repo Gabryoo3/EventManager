@@ -3214,7 +3214,7 @@
     var result = [];
     modifiers.forEach(function (modifier) {
       map.set(modifier.name, modifier);
-    }); // On visiting object, check for its dependencies and visit them recursively
+    }); // On visiting object, check for its requirements.txt and visit them recursively
 
     function sort(modifier) {
       visited.add(modifier.name);
@@ -3241,7 +3241,7 @@
   }
 
   function orderModifiers(modifiers) {
-    // order based on dependencies
+    // order based on requirements.txt
     var orderedModifiers = order(modifiers); // order based on phase
 
     return modifierPhases.reduce(function (acc, phase) {
@@ -3336,7 +3336,7 @@
           state.scrollParents = {
             reference: isElement(reference) ? listScrollParents(reference) : reference.contextElement ? listScrollParents(reference.contextElement) : [],
             popper: listScrollParents(popper)
-          }; // Orders the modifiers based on their dependencies and `phase`
+          }; // Orders the modifiers based on their requirements.txt and `phase`
           // properties
 
           var orderedModifiers = orderModifiers(mergeByName([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
