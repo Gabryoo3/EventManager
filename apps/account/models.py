@@ -23,6 +23,7 @@ class Address(models.Model):
         return f"{self.street_address}, {self.city} ({self.state})"
 
 class Account(AbstractUser, BaseModel):
+    username = models.CharField(max_length=30, unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     birth_date = models.DateField(validators=[check_mayor])

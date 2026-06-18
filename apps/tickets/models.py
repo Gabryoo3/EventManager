@@ -9,7 +9,7 @@ class Ticket(BaseModel):
     buyer = models.ForeignKey(Account, on_delete=models.PROTECT, related_name='tickets')
     #for know when the ticket is purchased, use created_at of the base model
     price = models.PositiveIntegerField(default=0)
-    event = models.ForeignKey(Event, on_delete=models.PROTECT, related_name='events')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='events')
     ticket_code = models.CharField(max_length=100, unique=True, blank=True)
     def save(self, *args, **kwargs):
         if not self.ticket_code:

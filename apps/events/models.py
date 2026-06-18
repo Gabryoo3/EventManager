@@ -4,6 +4,7 @@ from django.conf import settings
 from apps.core.models import BaseModel
 from apps.account.models import Address
 from django.utils import timezone
+import uuid
 
 
 class Category(BaseModel):
@@ -27,6 +28,11 @@ class Event(BaseModel):
     # one category can have many events but an event has only one category
     location = models.ForeignKey(Address, on_delete=models.PROTECT, related_name='events')
     seats = models.PositiveIntegerField(default=0)
+    event_code = models.CharField(max_length=100, unique=True)
+    def save(self, *args, **kwargs):
+        if not self.event_code:
+            self.event_code = f"TICKET-{uuid.uuid4().hex[:8].upper()}"
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.title} - {self.date_event}"
