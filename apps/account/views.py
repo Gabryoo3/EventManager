@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
 from apps.account.forms import AccountCreationForm, AddressCreationForm, AccountUpdateForm, AddressUpdateForm
-from django.views.generic import DetailView, UpdateView, CreateView
+from django.views.generic import DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from apps.account.models import Account, Address
@@ -57,10 +57,18 @@ class AddressUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('account:profile')
     def get_object(self):
         return get_object_or_404(Address, account=self.request.user)
-    
+
 class DashboardView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         account = get_object_or_404(Account, pk=request.user.pk)
         if request.user.is_organizer:
             return render(request, 'account/dashboard_organizer.html')
         return render(request, 'account/dashboard_attendee.html')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        account = get_object_or_404(Account, pk=self.request.user.pk)
+        if self.request.user.is_organizer:
+            context['organized_events'] = account.organized_events.all()
+        else:
+            context['tickets'] = account.tickets.select_related('event').all()
+        return context

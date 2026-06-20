@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from apps.account.models import Account, Address
-import account
 
 
 class AddressCreationForm(forms.ModelForm):
@@ -12,7 +11,7 @@ class AddressCreationForm(forms.ModelForm):
 class AccountCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = Account
-        fields = ['username', 'first_name', 'last_name', 'email', 'birth_date', 'phone_number']
+        fields = ['username', 'first_name', 'last_name', 'email', 'birth_date', 'phone']
 
 class AddressUpdateForm(forms.ModelForm):
     class Meta:
@@ -22,4 +21,4 @@ class AddressUpdateForm(forms.ModelForm):
 class AccountUpdateForm(forms.ModelForm):
     class Meta(UserCreationForm.Meta):
         model = Account
-        fields = ['username', 'first_name', 'last_name', 'email', 'birth_date', 'phone_number']
+        fields = ['username', 'first_name', 'last_name', 'email', 'birth_date', 'phone']
