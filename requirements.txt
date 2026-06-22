@@ -1,2 +1,4 @@
 pillow>=10.0
 django>=5.0
+django-browser-reload>=1.20.0 #optional, for development only
+django-watchfiles>=1.2.0 #optional, for development only

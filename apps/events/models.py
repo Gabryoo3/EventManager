@@ -38,7 +38,7 @@ class Event(BaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.title} - {self.date_event}"
+        return f"{self.title} - {self.date}"
 
 
 

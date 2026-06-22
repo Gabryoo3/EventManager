@@ -3,7 +3,6 @@ from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-
 from .models import Event
 from .forms import EventForm
 # Create your views here.
@@ -12,7 +11,24 @@ class EventListView(ListView):
     model = Event
     template_name = 'events/event_list.html'
     context_object_name = 'event'
-    ordering = ['date']
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(date__gte=timezone.localdate()).order_by('date')
+        query_title = self.request.GET.get('title')
+        category_name = self.request.GET.get('category')
+        if query_title:
+            queryset = queryset.filter(title__icontains=query_title)
+        if category_name:
+            queryset = queryset.filter(category__name__iexact=category_name)
+        return queryset
+
+class EventOrganizedView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Event
+    template_name = 'events/organizer_list.html'
+    context_object_name = 'event_management'
+    def test_func(self):
+        return getattr(self.request.user, 'is_organizer', False)
+    def get_queryset(self):
+        return Event.objects.filter(organizer=self.request.user).order_by('date')
 
 class EventDetailView(DetailView):
     model = Event

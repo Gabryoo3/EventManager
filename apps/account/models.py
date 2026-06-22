@@ -32,7 +32,3 @@ class Account(AbstractUser, BaseModel):
     phone = models.CharField(max_length=10, blank=True, null=True)
     is_organizer = models.BooleanField(default=False)
     REQUIRED_FIELDS = ['first_name', 'last_name', 'birth_date']
-
-
-
-
