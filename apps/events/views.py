@@ -21,15 +21,6 @@ class EventListView(ListView):
             queryset = queryset.filter(category__name__iexact=category_name)
         return queryset
 
-class EventOrganizedView(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    model = Event
-    template_name = 'events/organizer_list.html'
-    context_object_name = 'event_management'
-    def test_func(self):
-        return getattr(self.request.user, 'is_organizer', False)
-    def get_queryset(self):
-        return Event.objects.filter(organizer=self.request.user).order_by('date')
-
 class EventDetailView(DetailView):
     model = Event
     template_name = 'events/event_detail.html'
