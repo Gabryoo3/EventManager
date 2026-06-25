@@ -1,3 +1,4 @@
+from django.db.models import Count, F
 from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -15,10 +16,13 @@ class EventListView(ListView):
         queryset = super().get_queryset().filter(date__gte=timezone.localdate()).order_by('date')
         query_title = self.request.GET.get('title')
         category_name = self.request.GET.get('category')
+        organizer_name = self.request.GET.get('organizer')
         if query_title:
             queryset = queryset.filter(title__icontains=query_title)
         if category_name:
             queryset = queryset.filter(category__name__iexact=category_name)
+        if organizer_name:
+            queryset = queryset.filter(organizer__stagename__contains=organizer_name)
         return queryset
 
 class EventDetailView(DetailView):
@@ -56,7 +60,21 @@ class HomepageCarouselView(ListView):
     template_name = 'index.html'
     context_object_name = 'upcoming_events'
     def get_queryset(self):
-        return Event.objects.filter(date__gte=timezone.now()).order_by('-date')[:7]
+        return Event.objects.filter(date__gte=timezone.now()).prefetch_related('event_tickets').order_by('-date')[:7]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['selling_out_events'] = Event.objects.filter(
+            date__gte=timezone.localdate()
+        ).annotate(
+            sold_tickets=Count('event_tickets')
+        ).annotate(
+            tickets_remaining=F('seats') - F('sold_tickets')
+        ).filter(
+            tickets_remaining__gt=0,
+            tickets_remaining__lte=15
+        ).order_by('tickets_remaining')[:3]
+        return context
 
 class EventAttendeeListView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Event

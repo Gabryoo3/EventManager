@@ -40,5 +40,10 @@ class Event(BaseModel):
     def __str__(self):
         return f"{self.title} - {self.date}"
 
+    @property
+    def remaining_seats(self):
+        tickets_sold = self.event_tickets.count()
+        return max(0,self.seats - tickets_sold)
+
 
 

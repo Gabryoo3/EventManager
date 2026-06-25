@@ -31,4 +31,9 @@ class Account(AbstractUser, BaseModel):
     email = models.EmailField()
     phone = models.CharField(max_length=10, blank=True, null=True)
     is_organizer = models.BooleanField(default=False)
+    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    #ORGANIZER FIELDS
+    main_category = models.ForeignKey('events.Category', on_delete=models.PROTECT, blank=True, null=True, related_name='organizer_category')
+    stage_name = models.CharField(max_length=30, blank=True, null=True)
+    organizer_description = models.TextField(blank=True, null=True)
     REQUIRED_FIELDS = ['first_name', 'last_name', 'birth_date']

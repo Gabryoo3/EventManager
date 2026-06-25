@@ -1,2 +1,126 @@
 {% extends 'base.html' %}
-{% block title %} Event Manager{% endblock %}
+{% block title %} Welcome to Event Manager{% endblock %}
+{% block content %}
+    <div class="mt-5 text-center">
+        <h1 class="display-4 text-dark">Assisti a eventi unici</h1>
+        <p class="lead text-muted mx-auto">
+            Benvenuto su EventManager, la nuova piattaforma pensata per scoprire e partecipare agli eventi nella tua
+            città e non solo!
+        </p>
+    </div>
+    <div class="row row-cols-md-1 row-cols-3">
+        <h5 class="text-center">Prossimi eventi</h5>
+        {% if upcoming_events %}
+            <div class="col-auto">
+                <div id="#eventCarousel" class="carousel slide carousel-fade col" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        {% for event in upcoming_events %}
+                            <button type="button" data-bs-target="eventCarousel"
+                                    data-bs-slide-to="{{ forloop.counter0 }}"
+                                    {% if forloop.first %}class="active"{% endif %}
+                                    aria-current="true" aria-label="Slide {{ forloop.counter }}">
+                            </button>
+                            </div>
+                        {% endfor %}
+                    <div class="carousel-inner">
+                        {% for event in upcoming_events %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <a href={% url 'event_detail' event.id %}><img src="{{ event.image.url }}"
+                                                                               class="d-block w-100"
+                                                                               alt="{{ event.title }}"></a>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>{{ event.title }}</h5>
+                                    <p>{{ event.description|truncatewords:10 }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-center">Non ci sono eventi in programma a breve. Cerchi qualcosa in particolare? Usa la barra
+                di ricerca o selezionalo dalla lista!</p>
+        {% endif %}
+    </div>
+    {% if selling_out_events %}
+        <div class="row">
+            <h5 class="text-center">Eventi in esaurimento</h5>
+            {% for event in selling_out_events %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <a href={% url 'events:event_detail' event.id %}><img src="{{ event.image.url }}"
+                                                                              class="card-img-top"
+                                                                              alt="{{ event.title }}"></a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.title }}</h5>
+                            <p class="card-text">Solo {{ event.remaining_seats }} posti!</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="text-center page-description">
+        <h1 class="page-description">
+            Perché scegliere EventManager?
+        </h1>
+        <p class="text-black-50">Questa piattaforma nasce per rispondere ad un esigenza ben definita nel mercato negli
+            ultimi anni: il ritorno all'intrattenimento indie.
+            Con la nostra piattaforma, chiunque piccolo artista può farsi conoscere e comunicare i propri spettacoli a
+            chiunque interessato!</p>
+        <h2>Alcuni dei nostri artisti</h2>
+        {% if organizers %}
+            <div class="my-5">
+                <div id="#organizerCardCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                    <div class="carousel-inner">
+                        {% for organizer in organizers %}
+                            {% if forloop.counter0|divisibleby:3 %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row g-4 justify-content-center">
+                            {% endif %}
+
+                        <div class="col-md-4 col-sm-6">
+                            <div class="card h-100 shadow-sm border-0 d-flex flex-column text-center p-3">
+                                <a href="{% url 'account:account_detail' organizer.id %}"><img
+                                        src="{{ organizer.profile_image.url }}"
+                                        class="rounded-circle mx-auto my-3 object-fit-cover"
+                                        style="width: 100px; height: 100px;" alt="{{ organizer.username }}"></a>
+                                <div class="card-body d-flex flex-column flex-grow-1">
+                                    <h5 class="fw-bold text-dark mb-1">
+                                        {{ organizer.username }}
+                                    </h5>
+                                    <p class="text-muted small flex-grow-1 mb-3">
+                                        {{ organizer.main_category }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if forloop.counter|divisibleby:3 or forloop.last %}
+                            </div>
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+
+                    </div>
+
+                    <button class="carousel-control-prev justify-content-start w-auto" type="button"
+                            data-bs-target="#organizerCardCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next justify-content-end w-auto" type="button"
+                            data-bs-target="#organizerCardCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+    <h1 class="text-center">
+        Sei un artista e vuoi aderire al progetto?
+    </h1>
+    <p> Scrivi pure a em.admin@proton.com1</p>
+    </div>
+
+{% endblock content %}

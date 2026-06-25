@@ -22,9 +22,9 @@ from config import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account', include('apps.account.urls')),
+    path('', include('apps.account.urls')),
     path('', include('apps.events.urls')),
-    path('tickets', include('apps.tickets.urls')),
+    path('tickets/', include('apps.tickets.urls')),
 
     path('__reload__/', include("django_browser_reload.urls")),
 ]

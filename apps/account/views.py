@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
 from apps.account.forms import AccountCreationForm, AddressCreationForm, AccountUpdateForm, AddressUpdateForm
-from django.views.generic import DetailView, UpdateView, TemplateView
+from django.views.generic import DetailView, UpdateView, TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from apps.account.models import Account, Address
@@ -71,3 +71,16 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         else:
             context['tickets'] = user.tickets.select_related('event').all().order_by('date')
         return context
+
+class OrganizerCarouselView(ListView):
+    template_name = 'index.html'
+    context_object_name = 'organizers'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['organizers'] = Account.objects.filter(is_organizer=True)
+        return context
+
+class OrganizerDetailView(DetailView):
+    model = Account
+    template_name = 'account/organizer_detail.html'
+    context_object_name = 'organizer'
