@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.events',
     'apps.tickets',
-    'django_browser_reload'
+    'django_browser_reload',
 ]
 
 MIDDLEWARE = [

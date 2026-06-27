@@ -14,24 +14,24 @@ class RegisterView(View):
     template_name = 'account/register.html'
 
     def get(self, request, *args, **kwargs):
-        user_form = AccountCreationForm()
+        account_form = AccountCreationForm()
         address_form = AddressCreationForm()
         return render(request, self.template_name, {
-            'user_form': user_form,
+            'account_form': account_form,
             'address_form': address_form
         })
 
     def post(self, request, *args, **kwargs):
-        user_form = AccountCreationForm(request.POST)
+        account_form = AccountCreationForm(request.POST)
         address_form = AddressCreationForm(request.POST)
-        if user_form.is_valid() and address_form.is_valid():
+        if account_form.is_valid() and address_form.is_valid():
             address_instance = address_form.save()
-            user = user_form.save(commit=False)
+            user = account_form.save(commit=False)
             user.address = address_instance
             user.save()
-            return redirect('login')
+            return redirect('/login')
         return render(request, self.template_name, {
-            'user_form': user_form,
+            'account_form': account_form,
             'address_form': address_form
         })
 

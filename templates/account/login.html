@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}Accedi{% endblock %}
 {% block navbar %}{% endblock %}
 {% block content %}
     <div class="row justify-content-center my-5 align-content-center">
         <div class="col-md-5">
-            <div class="card shadow border-0 p-4">
+            <div class="shadow border-0 p-4">
                 <h2 class="fw-bold mb-3 text-center">Accedi</h2>
                 <form method="POST">
                     {% csrf_token %}
