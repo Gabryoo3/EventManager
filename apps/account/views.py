@@ -58,20 +58,6 @@ class AddressUpdateView(LoginRequiredMixin, UpdateView):
     def get_object(self):
         return get_object_or_404(Address, account=self.request.user)
 
-class DashboardView(LoginRequiredMixin, TemplateView):
-    def get_template_names(self):
-        if self.request.user.is_organizer:
-            return ['account/dashboard_organizer.html']
-        return ['account/dashboard_attendee.html']
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-        if user.is_organizer:
-            context['organized_events'] = user.organized_events.all().order_by('date')
-        else:
-            context['tickets'] = user.tickets.select_related('event').all().order_by('date')
-        return context
-
 class OrganizerCarouselView(ListView):
     template_name = 'index.html'
     context_object_name = 'organizers'
