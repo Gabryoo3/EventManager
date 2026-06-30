@@ -11,18 +11,21 @@ from .forms import EventForm
 class EventListView(ListView):
     model = Event
     template_name = 'events/event_list.html'
-    context_object_name = 'event'
+    context_object_name = 'events'
     def get_queryset(self):
-        queryset = super().get_queryset().filter(date__gte=timezone.localdate()).order_by('date')
+        queryset = super().get_queryset().select_related('category', 'organizer').filter(date__gte=timezone.localdate()).order_by('date')
         query_title = self.request.GET.get('title')
         category_name = self.request.GET.get('category')
         organizer_name = self.request.GET.get('organizer')
+        remaining_seats = self.request.GET.get('remaining_seats')
         if query_title:
             queryset = queryset.filter(title__icontains=query_title)
         if category_name:
             queryset = queryset.filter(category__name__iexact=category_name)
         if organizer_name:
-            queryset = queryset.filter(organizer__stagename__contains=organizer_name)
+            queryset = queryset.filter(organizer__stagename__icontains=organizer_name)
+        if remaining_seats:
+            queryset = queryset.filter(remaining_seats__gt=0)
         return queryset
 
 class EventDetailView(DetailView):

@@ -10,22 +10,28 @@ from .models import Ticket
 # Create your views here.
 
 class BuyTicket(LoginRequiredMixin, View):
+
+    context_object_name = 'buy_ticket'
     def post(self, request, event_id, *args, **kwargs):
         event = get_object_or_404(Event, pk=event_id)
+        quantity = int(request.POST.get('quantity'),1)
         tickets_sold = Ticket.objects.filter(event=event).count()
-        if tickets_sold >= event.seats:
-            messages.error(request, f'The event "{event.title}" is sold out. You cannot buy a ticket.')
-            return redirect('/events:detail', pk=event.pk)
+        if tickets_sold + quantity > event.seats:
+            messages.error(request, f"L'evento '{event.title}'ha meno biglietti di quanti chiesti.")
+            return redirect('events:event_detail', pk=event.pk)
+        tickets_created=[]
+        for _ in range(quantity):
+            ticket = Ticket.objects.create(
+                event=event,
+                buyer=request.user,
+                price = event.price
+            )
+            tickets_created.append(ticket)
+        messages.success(request, f'Acquisto completato! Ritorno alla lista eventi')
+        return redirect('events:event_list')
 
-        ticket = Ticket.objects.create(
-            event=event,
-            buyer=request.user,
-            price = event.price
-        )
-        messages.success(request, f'Purchase successful! Your ticket code is {ticket.ticket_code}. Redirecting to home page.')
-        return redirect('/')
 class TicketDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Event
+    model = Ticket
     template_name = 'tickets/ticket_confirm_delete.html'
     success_url = reverse_lazy('events:event_list')
     def test_func(self):

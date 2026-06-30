@@ -30,18 +30,13 @@ class Event(BaseModel):
     location = models.ForeignKey(Address, on_delete=models.PROTECT, related_name='events')
     seats = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='event_images/', blank=True, null=True)
-    event_code = models.CharField(max_length=100, unique=True)
-
-    def save(self, *args, **kwargs):
-        if not self.event_code:
-            self.event_code = f"TICKET-{uuid.uuid4().hex[:8].upper()}"
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.title} - {self.date}"
 
     @property
     def remaining_seats(self):
+        from apps.tickets.models import Ticket
         tickets_sold = self.event_tickets.count()
         return max(0,self.seats - tickets_sold)
 
