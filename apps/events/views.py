@@ -87,3 +87,10 @@ class EventAttendeeListView(LoginRequiredMixin, UserPassesTestMixin, DetailView)
         context = super().get_context_data(**kwargs)
         context['tickets'] = self.get_object().tickets.all().select_related('buyer').order_by('created_at')
         return context
+
+class OrganizerEventsListView(LoginRequiredMixin, ListView):
+    model = Event
+    template_name = 'events/organizer_list.html'
+    context_object_name = 'organizer_events'
+    def get_queryset(self):
+        return Event.objects.filter(organizer=self.request.user).order_by('-date')

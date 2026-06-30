@@ -51,12 +51,12 @@ class AccountUpdateView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
 class AddressUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'account/address_edit.html'
+    template_name = 'account/profile_edit.html'
     model = Address
     form_class = AddressUpdateForm
     success_url = reverse_lazy('account:profile')
     def get_object(self):
-        return get_object_or_404(Address, account=self.request.user)
+        return self.request.user
 
 class OrganizerCarouselView(ListView):
     template_name = 'index.html'
@@ -64,7 +64,7 @@ class OrganizerCarouselView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['organizers'] = Account.objects.filter(is_organizer=True)
-        return context
+        return context #needed to show organizers of the events
 
 class OrganizerDetailView(DetailView):
     model = Account

@@ -1,9 +1,78 @@
-{% extends base.html %}
+{% extends 'base.html' %}
 {% block title %}Il tuo profilo{% endblock %}
 {% block navbar %}{% endblock %}
 {% block content %}
-    <div class="container-fluid col-md-8 col-12">
-    <div class="row"></div>
+    <div class="d-md-none mb-3 d-block">
+        <button class="btn btn-primary mt-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile"
+                aria-controls="offcanvasProfile">
+            Menu laterale
+        </button>
+    </div>
+    <p class="text-start fw-bold fs-1 ps-3">Le tue info</p>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasProfile"
+             aria-labelledby="offcanvasProfileLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasProfileLabel">Menu</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                {% include 'account/includes/_sidebar_content.html' %}
+            </div>
+        </div>
+        <div class="row">
+        <aside class="col-md-3 d-none d-md-block">
+            <div class="card shadow-sm border-0 p-3 sticky-top">
+                {% include 'account/includes/_sidebar_content.html' %}
+            </div>
+        </aside>
+        <div class="col-md-5 col-12 mx-auto profile-main-infos">
+            <div class="card shadow-sm border-0 p-3 text-center">
+                <div class="card-body">
+                    {% if account.profile_image %}
+                        <img src="{{ account.profile_image.url }}"
+                             class="rounded-circle img-thumbnail mx-auto mb-3"
+                             alt="Avatar">
+                    {% else %}
+                        <div class="bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold profile-logo">
+                            {{ account.username|slice:":1"|upper }}
+                        </div>
+                    {% endif %}
+
+                    <h5 class="fw-bold mb-1">{{ account.first_name }} {{ account.last_name }}</h5>
+                    <p class="text-muted small mb-3">@{{ account.username }}</p>
+
+                    <span class="badge bg-success-subtle text-success rounded-pill px-3 py-1.5">
+                        {% if account.is_organizer %}Organizzatore{% else %}Partecipante{% endif %}
+                    </span>
+                    <div class="row">
+                        <div class="col-md-6 col-12 pt-3">
+                            <h5 class="mb-1 py-1">Email: {{ account.email }}</h5>
+                            <h5 class="mb-1 py-1">Data di nascita: {{ account.birth_date }}</h5>
+                        </div>
+                        <div class="col-md-6 col-12 pt-3">
+                            <h5 class="mb-1 py-1">Telefono: {{ account.phone }}</h5>
+                            <h5 class="mb-1 py-1">
+                                {% if account.address %}
+                                    Indirizzo: {{ account.address.street_address }}, {{ account.address.city }},
+                                    {{ account.address.region }},{{ account.address.state }}, {{ account.address.zip_code }}
+                                {% else %}
+                                    Nessun indirizzo salvato
+                                {% endif %}
+                            </h5>
+                        </div>
+                    </div>
+                    {% if user.is_organizer %}
+                    <div class="row">
+
+                        <div class="col-md-6 col-12">
+
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
