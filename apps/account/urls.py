@@ -1,6 +1,8 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'account'
 
@@ -20,3 +22,6 @@ urlpatterns = [
     ), name='password_change_done'),
     path('detail/<int:pk>/', views.AccountDetailView.as_view(), name='account_detail'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

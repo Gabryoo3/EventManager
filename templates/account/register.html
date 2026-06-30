@@ -26,6 +26,9 @@
                             </div>
                             <div class="col-md-6 col-12">
                                 <label class="form-label">Data di nascita: {{ account_form.birth_date }}</label>
+                                {% if account_form.birth_date.errors %}
+                                    <div class="text-danger small">{{ account_form.birth_date.errors }}</div>
+                                {% endif %}
                             </div>
                             <div class="col-md-6 col-12">
                                 <label class="form-label">Indirizzo mail: {{ account_form.email }}</label>
@@ -65,16 +68,16 @@
                                 <label class="form-label">Via/Viale: {{ address_form.street_address }}</label>
                             </div>
                             <div class="col-md-6 col-12">
-                                <label class="form-label">Città: {{ address_form.city }}</label>
+                                <label class="form-label">Città:<br> {{ address_form.city }}</label>
                             </div>
                             <div class="col-md-6 col-12">
                                 <label class="form-label">Regione: {{ address_form.region }}</label>
                             </div>
                             <div class="col-md-6 col-12">
-                                <label class="form-label">Stato: {{ address_form.state }}</label>
+                                <label class="form-label">Stato:<br>{{ address_form.state }}</label>
                             </div>
                             <div class="col-md-6 col-12">
-                                <label class="form-label">CAP: {{ address_form.zip_code }}</label>
+                                <label class="form-label">CAP:<br> {{ address_form.zip_code }}</label>
                             </div>
                         </div>
                         <div class="mt-4">

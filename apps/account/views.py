@@ -22,7 +22,7 @@ class RegisterView(View):
         })
 
     def post(self, request, *args, **kwargs):
-        account_form = AccountCreationForm(request.POST)
+        account_form = AccountCreationForm(request.POST, request.FILES)
         address_form = AddressCreationForm(request.POST)
         if account_form.is_valid() and address_form.is_valid():
             address_instance = address_form.save()

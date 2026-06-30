@@ -10,7 +10,7 @@ def check_mayor(value):
     today = timezone.localdate()
     age = today.year - value.year - ((today.month, today.day) < (value.month, value.day))
     if age < 18:
-        raise ValidationError('You must be 18 or older to register.')
+        raise ValidationError('Devi essere maggiorenne per registrarti.')
 
 
 class Address(models.Model):
@@ -31,7 +31,7 @@ class Account(AbstractUser, BaseModel):
     email = models.EmailField()
     phone = models.CharField(max_length=10, blank=True, null=True)
     is_organizer = models.BooleanField(default=False)
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    profile_image = models.ImageField(upload_to='img/profile_images', blank=True, null=True)
     #ORGANIZER FIELDS
     main_category = models.ForeignKey('events.Category', on_delete=models.PROTECT, blank=True, null=True, related_name='organizer_category')
     stage_name = models.CharField(max_length=30, blank=True, null=True)
