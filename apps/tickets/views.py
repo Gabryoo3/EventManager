@@ -12,9 +12,11 @@ from .models import Ticket
 class BuyTicket(LoginRequiredMixin, View):
 
     context_object_name = 'buy_ticket'
-    def post(self, request, event_id, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        event_id = request.POST.get('event_id')
         event = get_object_or_404(Event, pk=event_id)
-        quantity = int(request.POST.get('quantity'),1)
+        quantity = int(request.POST.get('quantity',1))
         tickets_sold = Ticket.objects.filter(event=event).count()
         if tickets_sold + quantity > event.seats:
             messages.error(request, f"L'evento '{event.title}'ha meno biglietti di quanti chiesti.")

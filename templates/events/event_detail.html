@@ -2,25 +2,28 @@
 {% load static %}
 {% block title %}{{ event.title }}{% endblock %}
 {% block content %}
-    <div class="row justify-content-between">
-        <div class="col-md-6 col-12">
-                <img src="{% if event.image %}{{ event.image.url }}{% else %}{% static 'img/default_event_image.jpg' %}{% endif %}" alt="{{ event.title }}" class="img-fluid rounded-2 shadow">
+    <div class="row justify-content-evenly mt-3 g-4">
+        <h4 class="alert alert-danger text-danger py-2 text-uppercase text-center">Stai visualizzando come organizzatore. Per acquistare, entra come utente normale</h4>
+        <div class="col-3 event-img">
+                <img src="{% if event.image %}{{ event.image.url }}{% else %}{% static 'img/default_event_image.jpg' %}{% endif %}" alt="{{ event.title }}" class="rounded-2 shadow img-fluid mt-3">
         </div>
         <div class="col-md-6 col-12">
-            <p class="text-bold">{{ event.title }}</p>
-            <p class="badge fw-semibold text-success">Categoria: {{ event.category }}</p>
+            <h2 class="text-bold">{{ event.title }}</h2>
+            <h2 class="badge fw-semibold text-success">Categoria: {{ event.category }}</h2>
             <p class="text-muted">Organizzatore: <strong>{{ event.organizer }}</strong></p>
-            <h3 class="text-muted fw-medium">Data: {{ event.date|date:"d M Y " }}</h3>
-            <h3 class="text-dark">Luogo: {{ event.location }}</h3>
+            <h4 class="text-muted fw-medium">Data: {{ event.date|date:"d M Y " }}</h4>
+            <h4 class="text-dark">Luogo: {{ event.location }}</h4>
 
             <div class="mb-4">
                 <h4 class="text-muted">Prezzo biglietto</h4>
                 <h4 class="text-success">{{ event.price }}€</h4>
             </div>
             {% if event.remaining_seats > 0 %}
-                <form method="POST" action="{% url 'tickets:buy_tickets' event.id %}">
+                <form method="POST" action="{% url 'tickets:purchase'%}">
                     {% csrf_token %}
+                    <input type="hidden" name="event_id" value="{{ event.id }}">
                     <div class="mb-3">
+                    {% if user.is_not_organizer %}
                         <label for="quantity" class="form-label small fw-semibold">Quantità biglietti</label>
                         <input type="number" class="form-control" id="quantity" name="quantity" min="1"
                                max="{{ event.remaining_seats }}" value="1" required>
@@ -28,19 +31,18 @@
                             Posti rimasti: <span class="fw-bold">{{ event.remaining_seats }} / {{ event.seats }}</span>
                         </h4>
                     </div>
+
                     <button type="submit" class="btn btn-success shadow">
                         Acquista
                     </button>
+                    {% endif %}
                 </form>
-                {% else %}
+             {% else %}
                 <h3 class="alert text-danger alert-danger text-center py-2 mb-0 shadow">SOLD OUT!</h3>
             {% endif %}
-        </div>
-        <div class="col-12">
-            <div class="justify-content-start">
                 <h3 class="text-muted">Descrizione evento</h3>
-            </div>
-            <p class="text-secondary">{{ event.description|default_if_none:"Nessuna descrizione" }}</p>
+                <p class="text-secondary">{{ event.description|default_if_none:"Nessuna descrizione" }}</p>
+
         </div>
     </div>
 {% endblock %}
