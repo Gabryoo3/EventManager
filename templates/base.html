@@ -31,11 +31,11 @@
                             <li class="nav-item dropdown px-2">
                                 <a class="nav-link dropdown-toggle" href="#" id="organizerDropdown" role="button"
                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Events
+                                    Eventi
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="organizerDropdown">
                                     <li><a class="dropdown-item" href="{% url 'events:event_create' %}">Crea Evento</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'events:event_organizer' %}">I tuoi eventi</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'events:organizer_events_list' %}">I tuoi eventi</a></li>
                                     <li><a class="dropdown-item" href="{% url 'events:event_list' %}">Mostra tutti gli eventi</a></li>
                                 </ul>
                             </li>
@@ -115,7 +115,7 @@
     {% block content %}{% endblock content %}
 </main>
 
-<footer class="footer mt-auto py-3 bg-dark text-white-50 text-center border-top border-secondary">
+<footer class="footer mt-auto py-3 bg-dark text-white-50 text-center bottom-100 border-top border-secondary">
         <div class="container-fluid">
             <small>&copy; 2026 EventManager. All backstage rights reserved.</small>
         </div>

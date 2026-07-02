@@ -18,7 +18,7 @@ class Address(models.Model):
     city = models.CharField(max_length=100)
     region = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
-    zip_code = models.PositiveIntegerField()
+    zip_code = models.CharField(max_length=10)
     def __str__(self):
         return f"{self.street_address}, {self.city} ({self.state})"
 

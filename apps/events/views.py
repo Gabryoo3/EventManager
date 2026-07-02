@@ -1,9 +1,13 @@
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Count, F
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, View, DeleteView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+
+from apps.account.forms import AddressCreationForm
 from .models import Event
 from .forms import EventForm
 # Create your views here.
@@ -33,27 +37,48 @@ class EventDetailView(DetailView):
     template_name = 'events/event_detail.html'
     context_object_name = 'event'
 
-class EventCreateView(LoginRequiredMixin, CreateView):
+class EventCreateView(LoginRequiredMixin, View, SuccessMessageMixin):
     model = Event
     template_name = 'events/event_form.html'
     form_class = EventForm
-    success_url = reverse_lazy('events:event_list')
-    def form_valid(self, form):
-        form.instance.organizer = self.request.user
-        return super().form_valid(form) #makes the user that created the event the owner
+    success_url = reverse_lazy('events:home')
+    success_message = 'Evento creato con successo!'
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {
+            'form': self.form_class(),
+            'address_form' : AddressCreationForm()
+        })
+    def post(self, request, *args, **kwargs):
+        event_form = self.form_class(data=request.POST, files=request.FILES)
+        address_form = AddressCreationForm(data=request.POST)
+        if event_form.is_valid() and address_form.is_valid():
+            address = address_form.save()
+            event = event_form.save(commit=False)
+            event.organizer = self.request.user
+            event.location = address
+            event.save()
+            messages.success(request, self.success_message)
+            return redirect(self.success_url)
+        else:
+            return render(request, self.template_name, {
+                'form': event_form,
+                'address_form': address_form
+            })
 
-class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, View, SuccessMessageMixin):
     model = Event
     template_name = 'events/event_form.html'
     success_url = reverse_lazy('events:event_list')
+    success_message = 'Evento modificato con successo!'
     def test_func(self):
         event = self.get_object()
         return self.request.user == event.organizer
 
-class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView, SuccessMessageMixin):
     model = Event
     template_name = 'events/event_confirm_delete.html'
     success_url = reverse_lazy('events:event_list')
+    success_message = 'Evento eliminato con successo!'
     def test_func(self):
         event = self.get_object()
         return self.request.user == event.organizer

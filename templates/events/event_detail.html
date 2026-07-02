@@ -4,7 +4,7 @@
 {% block content %}
     <div class="row justify-content-between">
         <div class="col-md-6 col-12">
-            <img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid rounded-2 shadow">
+                <img src="{% if event.image %}{{ event.image.url }}{% else %}{% static 'img/default_event_image.jpg' %}{% endif %}" alt="{{ event.title }}" class="img-fluid rounded-2 shadow">
         </div>
         <div class="col-md-6 col-12">
             <p class="text-bold">{{ event.title }}</p>

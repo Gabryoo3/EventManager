@@ -23,7 +23,8 @@ class Event(BaseModel):
     title = models.CharField(max_length=255)
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='organized_events')
     description = models.TextField(blank=True)
-    date = models.DateField(validators=[check_date])
+    date = models.DateField(format('%d/%m/%Y'), validators=[check_date])
+    time = models.TimeField(format('%H:%M'))
     category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='events') #for many-to-one
     # one category can have many events but an event has only one category
     price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)

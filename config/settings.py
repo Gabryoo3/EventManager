@@ -132,5 +132,5 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/ 'media'
 
-LOGIN_REDIRECT_URL='account:profile'
+LOGIN_REDIRECT_URL='events:home'
 LOGOUT_REDIRECT_URL='events:home'
