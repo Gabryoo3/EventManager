@@ -45,8 +45,8 @@
                             </li>
                         {% endif %}
 
-                        <form class="d-flex flex-fill mx-lg-3 my-2 my-lg-0" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Scrivi un evento" aria-label="Search"/>
+                        <form class="d-flex flex-fill mx-lg-3 my-2 my-lg-0" role="search" action="{% url 'events:event_list' %}" method="GET">
+                            <input class="form-control me-2" type="search" name="title" placeholder="Scrivi un evento" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
 

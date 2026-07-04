@@ -4,14 +4,17 @@ document.addEventListener('DOMContentLoaded', function () {
     // Find the row elements wrapper in Django Admin (usually a div with .form-row)
     const stageNameRow = document.querySelector('.field-stage_name');
     const mainCategoryRow = document.querySelector('.field-main_category');
+    const profileImageRow = document.querySelector('.field-profile_image');
 
     function toggleOrganizerFields() {
         if (isOrganizerCheckbox && isOrganizerCheckbox.checked) {
             stageNameRow.style.display = 'block';
             mainCategoryRow.style.display = 'block';
+            profileImageRow.style.display = 'block';
         } else {
-            if (stageNameRow) stageNameRow.style.display = 'none';
-            if (mainCategoryRow) mainCategoryRow.style.display = 'none';
+            stageNameRow.style.display = 'none';
+            mainCategoryRow.style.display = 'none';
+            profileImageRow.style.display = 'none';
         }
     }
 

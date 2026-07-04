@@ -59,11 +59,13 @@ class AddressUpdateView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
 class OrganizerCarouselView(ListView):
+    model = Account
     template_name = 'index.html'
     context_object_name = 'organizers'
+    def get_queryset(self):
+        return Account.objects.filter(is_organizer=True)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['organizers'] = Account.objects.filter(is_organizer=True)
         return context #needed to show organizers of the events
 
 class OrganizerDetailView(DetailView):

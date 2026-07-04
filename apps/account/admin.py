@@ -13,6 +13,7 @@ class OrganizerAdminForm(forms.ModelForm):
         is_organizer = cleaned_data.get('is_organizer')
         stage_name = cleaned_data.get('stage_name')
         main_category = cleaned_data.get('main_category')
+        profile_image = cleaned_data.get('profile_image')
         if is_organizer and (not main_category or not stage_name):
             raise forms.ValidationError("Organizers must have a main category and stage name.")
         return cleaned_data
@@ -37,7 +38,7 @@ class AccountAdmin(UserAdmin):
     add_fieldsets = tuple(UserAdmin.add_fieldsets or ()) + (
         ('Extra Info', {
             'classes': ('wide',),
-            'fields': ('first_name', 'last_name', 'birth_date', 'email', 'phone', 'address', 'is_organizer','main_category', 'stage_name')
+            'fields': ('first_name', 'last_name', 'birth_date', 'email', 'phone', 'address', 'is_organizer','main_category', 'stage_name', 'profile_image')
         }),
     )
 

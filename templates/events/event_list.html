@@ -4,9 +4,9 @@
 {% block content %}
     <div class="row justify-content-start py-5">
         <div class="col-md-6 col-12">
-            {% if request.GET.q %}
+            {% if request.GET.title %}
                 <div class="text-muted small pt-2 px-1">
-                    Risultati per: <span class="fw-semibold text-dark">{{ request.GET.q }}</span>
+                    Risultati per: <span class="fw-semibold text-dark">{{ request.GET.title }}</span>
                 </div>
                 x <a href="{% url 'events:event_list' %}" class="text-danger">Rimuovi filtro</a>
                 {% else %}

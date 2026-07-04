@@ -20,7 +20,8 @@ urlpatterns = [
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(
         template_name='account/change_password_done.html'
     ), name='password_change_done'),
-    path('detail/<int:pk>/', views.AccountDetailView.as_view(), name='account_detail'),
+    path('detail/<int:pk>/', views.OrganizerDetailView.as_view(), name='organizer_detail'),
+
 ]
 
 if settings.DEBUG:

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Welcome to Event Manager{% endblock %}
 {% block content %}
     <div class="mt-5 text-center">
@@ -12,19 +13,22 @@
         <h5 class="text-center">Prossimi eventi</h5>
         {% if upcoming_events %}
             <div class="col-auto">
-                <div id="#eventCarousel" class="carousel slide carousel-fade col" data-bs-ride="carousel">
+                <div id="eventCarousel" class="carousel slide carousel-fade col" data-bs-ride="carousel">
                     <div class="carousel-indicators">
                         {% for event in upcoming_events %}
-                            <button type="button" data-bs-target="eventCarousel"
+                            <button type="button" data-bs-target="#eventCarousel"
                                     data-bs-slide-to="{{ forloop.counter0 }}"
                                     {% if forloop.first %}class="active"{% endif %}
                                     aria-current="true" aria-label="Slide {{ forloop.counter }}">
                             </button>
-                            </div>
                         {% endfor %}
+                    </div>
                     <div class="carousel-inner">
                         {% for event in upcoming_events %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="
+                                        {% if event.image %}{{ event.image.url }}{% else %}{% static 'img/default_event_image.jpg' %}{% endif %}"
+                                     alt="{{ event.title }}" class="d-block w-100">
                                 <a href={% url 'events:event_detail' event.id %}></a>
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>{{ event.title }}</h5>
@@ -58,7 +62,7 @@
             {% endfor %}
         </div>
     {% endif %}
-    <div class="text-center page-description">
+    <div class="text-center page-description py-3">
         <h1 class="page-description">
             Perché scegliere EventManager?
         </h1>
@@ -69,8 +73,9 @@
         <h2>Alcuni dei nostri artisti</h2>
         {% if organizers %}
             <div class="my-5">
-                <div id="#organizerCardCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                <div id="organizerCardCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                     <div class="carousel-inner">
+
                         {% for organizer in organizers %}
                             {% if forloop.counter0|divisibleby:3 %}
                                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
@@ -79,16 +84,19 @@
 
                         <div class="col-md-4 col-sm-6">
                             <div class="card h-100 shadow-sm border-0 d-flex flex-column text-center p-3">
-                                <a href="{% url 'account:account_detail' organizer.id %}"><img
-                                        src="{{ organizer.profile_image.url }}"
-                                        class="rounded-circle mx-auto my-3 object-fit-cover"
-                                        style="width: 100px; height: 100px;" alt="{{ organizer.username }}"></a>
+                                <a href="{% url 'account:organizer_detail' organizer.id %}">
+                                    <img src="
+                                            {% if organizer.profile_image %}{{ organizer.profile_image.url }}{% else %}{% static 'img/simple-user-default-icon.png' %}{% endif %}"
+                                         class="rounded-circle mx-auto my-3 object-fit-cover"
+                                         style="width: 100px; height: 100px;"
+                                         alt="{{ organizer.username }}">
+                                </a>
                                 <div class="card-body d-flex flex-column flex-grow-1">
                                     <h5 class="fw-bold text-dark mb-1">
                                         {{ organizer.username }}
                                     </h5>
-                                    <p class="text-muted small flex-grow-1 mb-3">
-                                        {{ organizer.main_category }}
+                                    <p class="badge small text-success mb-3">
+                                        {{ organizer.main_category|default:"Artista" }}
                                     </p>
                                 </div>
                             </div>
@@ -115,10 +123,10 @@
                 </div>
             </div>
         {% endif %}
-    <h1 class="text-center">
-        Sei un artista e vuoi aderire al progetto?
-    </h1>
-    <p> Scrivi pure a em.admin@proton.com1</p>
+        <h1 class="text-center">
+            Sei un artista e vuoi aderire al progetto?
+        </h1>
+        <p> Scrivi pure a em.admin@proton.com1</p>
     </div>
 
 {% endblock content %}
