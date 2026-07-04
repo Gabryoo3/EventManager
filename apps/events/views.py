@@ -41,7 +41,7 @@ class EventCreateView(LoginRequiredMixin, View, SuccessMessageMixin):
     model = Event
     template_name = 'events/event_form.html'
     form_class = EventForm
-    success_url = reverse_lazy('events:home')
+    success_url = reverse_lazy('events:organizer_events_list')
     success_message = 'Evento creato con successo!'
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {
@@ -74,14 +74,16 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, View, SuccessMess
         event = self.get_object()
         return self.request.user == event.organizer
 
-class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView, SuccessMessageMixin):
+class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Event
-    template_name = 'events/event_confirm_delete.html'
-    success_url = reverse_lazy('events:event_list')
+    success_url = reverse_lazy('events:organizer_events_list')
     success_message = 'Evento eliminato con successo!'
     def test_func(self):
         event = self.get_object()
         return self.request.user == event.organizer
+    def form_valid(self, form):
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
 
 class HomepageCarouselView(ListView):
     model = Event
