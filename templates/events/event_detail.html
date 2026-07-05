@@ -9,14 +9,13 @@
         </div>
         <div class="col-md-6 col-12">
             <h2 class="text-bold">{{ event.title }}</h2>
-            <h2 class="badge fw-semibold text-success">Categoria: {{ event.category }}</h2>
-            <p class="text-muted">Organizzatore: <strong>{{ event.organizer }}</strong></p>
+            <p class="badge fw-semibold text-success fs-5">Categoria: {{ event.category }}</p>
+            <h5 class="text-muted">Organizzatore: <strong>{{ event.organizer }}</strong></h5>
             <h4 class="text-muted fw-medium">Data: {{ event.date|date:"d M Y " }}</h4>
-            <h4 class="text-dark">Luogo: {{ event.location }}</h4>
+            <h5 class="text-dark">Luogo: {{ event.location.street_address }}, {{ event.location.city }}({{ event.location.zip_code }}), {{ event.location.region }}, {{ event.location.state }}</h5>
 
             <div class="mb-4">
-                <h4 class="text-muted">Prezzo biglietto</h4>
-                <h4 class="text-success">{{ event.price }}€</h4>
+                <h4 class="text-muted">Prezzo biglietto: <span class="text-success">{{ event.price }}€</span></h4>
             </div>
             {% if event.remaining_seats > 0 %}
                 <form method="POST" action="{% url 'tickets:purchase'%}">

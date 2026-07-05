@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-^%r91k1%x2hp)4489=d+(811kpfk-ol4d32cj^t4jht-9n4yeq
 DEBUG = True
 
 ALLOWED_HOSTS = [
-'eventsforindies.onrender.com'
+'eventsforindies.onrender.com',
+'localhost',
+'127.0.0.1',
 ]
 
 
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     'apps.events',
     'apps.tickets',
     'django_browser_reload',
+    'django_password_eye'
 ]
 
 MIDDLEWARE = [

@@ -1,13 +1,14 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Count, F
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.generic import ListView, View, DeleteView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 
-from apps.account.forms import AddressCreationForm
+from apps.account.models import Address
+from apps.account.forms import AddressCreationForm, AddressUpdateForm
 from .models import Event
 from .forms import EventForm
 # Create your views here.
@@ -65,13 +66,36 @@ class EventCreateView(LoginRequiredMixin, View, SuccessMessageMixin):
                 'address_form': address_form
             })
 
-class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, View, SuccessMessageMixin):
+class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
     model = Event
     template_name = 'events/event_form.html'
     success_url = reverse_lazy('events:event_list')
     success_message = 'Evento modificato con successo!'
+    def get(self, request, *args, **kwargs):
+        event = get_object_or_404(Event, pk=kwargs['pk'])
+        address = event.location
+        return render(request, self.template_name, {
+            'form': EventForm(instance=event),
+            'address_form' : AddressUpdateForm(instance=address)
+        })
+    def post(self, request, *args, **kwargs):
+        event = get_object_or_404(Event, pk=kwargs['pk'])
+        address = event.location
+        eventForm = EventForm(data=request.POST, files=request.FILES, instance=event)
+        addressForm = AddressUpdateForm(data=request.POST, instance=address)
+        if eventForm.is_valid() and addressForm.is_valid():
+            save_address=addressForm.save()
+            eventForm.save(commit=False)
+            event.location = save_address
+            eventForm.save()
+            messages.success(request, self.success_message)
+            return redirect('events:organizer_events_list')
+        return render(request, self.template_name, {
+            'form' : EventForm(instance=event),
+            'address_form' : AddressUpdateForm(request.POST),
+        })
     def test_func(self):
-        event = self.get_object()
+        event = get_object_or_404(Event, pk=self.kwargs.get('pk'))
         return self.request.user == event.organizer
 
 class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
