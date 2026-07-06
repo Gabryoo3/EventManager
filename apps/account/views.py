@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
@@ -12,7 +13,7 @@ from apps.account.models import Account, Address
 
 class RegisterView(View):
     template_name = 'account/register.html'
-
+    success_message = 'Account creato con successo! Effettua il login per continuare.'
     def get(self, request, *args, **kwargs):
         account_form = AccountCreationForm()
         address_form = AddressCreationForm()
@@ -29,6 +30,7 @@ class RegisterView(View):
             user = account_form.save(commit=False)
             user.address = address_instance
             user.save()
+            messages.success(request, self.success_message)
             return redirect('/login')
         return render(request, self.template_name, {
             'account_form': account_form,

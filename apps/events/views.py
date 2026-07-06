@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 
 from apps.account.models import Address
 from apps.account.forms import AddressCreationForm, AddressUpdateForm
-from .models import Event
+from .models import Event, Category
 from .forms import EventForm
 # Create your views here.
 
@@ -21,17 +21,20 @@ class EventListView(ListView):
         queryset = super().get_queryset().select_related('category', 'organizer').filter(date__gte=timezone.localdate()).order_by('date')
         query_title = self.request.GET.get('title')
         category_name = self.request.GET.get('category')
-        organizer_name = self.request.GET.get('organizer')
+        organizer_stagename = self.request.GET.get('organizer')
         remaining_seats = self.request.GET.get('remaining_seats')
         if query_title:
             queryset = queryset.filter(title__icontains=query_title)
         if category_name:
             queryset = queryset.filter(category__name__iexact=category_name)
-        if organizer_name:
-            queryset = queryset.filter(organizer__stagename__icontains=organizer_name)
-        if remaining_seats:
-            queryset = queryset.filter(remaining_seats__gt=0)
+        if organizer_stagename:
+            queryset = queryset.filter(organizer__stage_name__icontains=organizer_stagename)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 class EventDetailView(DetailView):
     model = Event

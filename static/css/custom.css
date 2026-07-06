@@ -24,8 +24,15 @@ form{
 }
 
 .carousel-item img{
-    height: 300px;
-    width: 300px;
+    height: 600px;
+    width: 600px;
     object-fit: cover;
+}
+
+td img{
+    height:75px;
+    width:75px;
+    object-fit: cover;
+    flex-shrink: 0;
 }
 

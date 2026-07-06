@@ -9,11 +9,11 @@
             città e non solo!
         </p>
     </div>
-    <div class="row row-cols-md-1 row-cols-3">
+    <div class="row justify-content-center">
         <h5 class="text-center">Prossimi eventi</h5>
         {% if upcoming_events %}
-            <div class="col-auto">
-                <div id="eventCarousel" class="carousel slide carousel-fade col" data-bs-ride="carousel">
+            <div class="col-12 col-md-8">
+                <div id="eventCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
                     <div class="carousel-indicators">
                         {% for event in upcoming_events %}
                             <button type="button" data-bs-target="#eventCarousel"
@@ -28,12 +28,15 @@
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                 <img src="
                                         {% if event.image %}{{ event.image.url }}{% else %}{% static 'img/default_event_image.jpg' %}{% endif %}"
-                                     alt="{{ event.title }}" class="d-block w-100">
+                                     alt="{{ event.title }}" class="d-block w-50 mx-auto rounded-2">
                                 <a href={% url 'events:event_detail' event.id %}></a>
-                                <div class="carousel-caption d-none d-md-block">
+                                <div class="carousel-caption d-block justify-content-center w-50 mx-auto">
+                                    <div class="bg-primary rounded-3 bg-opacity-50">
                                     <h5>{{ event.title }}</h5>
                                     <p>{{ event.description|truncatewords:10 }}</p>
+                                    </div>
                                 </div>
+
                             </div>
                         {% endfor %}
                     </div>

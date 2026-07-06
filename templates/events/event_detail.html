@@ -3,7 +3,9 @@
 {% block title %}{{ event.title }}{% endblock %}
 {% block content %}
     <div class="row justify-content-evenly mt-3 g-4">
-        <h4 class="alert alert-danger text-danger py-2 text-uppercase text-center">Stai visualizzando come organizzatore. Per acquistare, entra come utente normale</h4>
+        {% if user.is_organizer %}
+            <h4 class="alert alert-danger text-danger py-2 text-uppercase text-center">Stai visualizzando come organizzatore. Per acquistare, entra come utente normale</h4>
+        {% endif %}
         <div class="col-3 event-img">
                 <img src="{% if event.image %}{{ event.image.url }}{% else %}{% static 'img/default_event_image.jpg' %}{% endif %}" alt="{{ event.title }}" class="rounded-2 shadow img-fluid mt-3">
         </div>
@@ -22,7 +24,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="event_id" value="{{ event.id }}">
                     <div class="mb-3">
-                    {% if user.is_not_organizer %}
+                    {% if not user.is_organizer %}
                         <label for="quantity" class="form-label small fw-semibold">Quantità biglietti</label>
                         <input type="number" class="form-control" id="quantity" name="quantity" min="1"
                                max="{{ event.remaining_seats }}" value="1" required>

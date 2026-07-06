@@ -20,4 +20,4 @@ sqlparse==0.5.5
 typing-inspection==0.4.2
 typing_extensions>=4.15.0
 watchfiles==1.2.0
-django-password-eye==1.1.4
+

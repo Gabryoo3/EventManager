@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'apps.events',
     'apps.tickets',
     'django_browser_reload',
-    'django_password_eye'
 ]
 
 MIDDLEWARE = [

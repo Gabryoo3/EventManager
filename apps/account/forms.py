@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django_password_eye.fields import PasswordEye
 
 from apps.account.models import Account, Address
 
@@ -17,7 +16,6 @@ class AccountCreationForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'birth_date', 'phone','profile_image', 'password1', 'password2']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}),
-            'password1': PasswordEye(label='Password'),
         }
 
 
