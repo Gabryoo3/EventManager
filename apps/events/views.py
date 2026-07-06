@@ -3,7 +3,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Count, F
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from django.views.generic import ListView, View, DeleteView, DetailView
+from django.views.generic import ListView, View, DeleteView, DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 
@@ -151,3 +151,6 @@ class OrganizerEventsListView(LoginRequiredMixin, ListView):
     context_object_name = 'organizer_events'
     def get_queryset(self):
         return Event.objects.filter(organizer=self.request.user).order_by('-date')
+
+class ContactUsView(TemplateView):
+    template_name = 'contacts.html'

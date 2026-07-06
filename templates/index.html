@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Welcome to Event Manager{% endblock %}
+{% block title %} Benvenuto su EventsForIndies{% endblock %}
 {% block content %}
     <div class="mt-5 text-center">
         <h1 class="display-4 text-dark">Assisti a eventi unici</h1>
         <p class="lead text-muted mx-auto">
-            Benvenuto su EventManager, la nuova piattaforma pensata per scoprire e partecipare agli eventi nella tua
+            Benvenuto su EventsforIndies, la nuova piattaforma pensata per scoprire e partecipare agli eventi nella tua
             città e non solo!
         </p>
     </div>
@@ -67,69 +67,30 @@
     {% endif %}
     <div class="text-center page-description py-3">
         <h1 class="page-description">
-            Perché scegliere EventManager?
+            Perché scegliere EventsForIndies?
         </h1>
-        <p class="text-black-50">Questa piattaforma nasce per rispondere ad un esigenza ben definita nel mercato negli
-            ultimi anni: il ritorno all'intrattenimento indie.
+        <p class="text-black-50">Questa piattaforma nasce per rispondere a un esigenza ben definita nel mercato negli
+            ultimi anni: il ritorno all'intrattenimento indipendente.
             Con la nostra piattaforma, chiunque piccolo artista può farsi conoscere e comunicare i propri spettacoli a
             chiunque interessato!</p>
-        <h2>Alcuni dei nostri artisti</h2>
-        {% if organizers %}
-            <div class="my-5">
-                <div id="organizerCardCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-                    <div class="carousel-inner">
-
-                        {% for organizer in organizers %}
-                            {% if forloop.counter0|divisibleby:3 %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <div class="row g-4 justify-content-center">
-                            {% endif %}
-
-                        <div class="col-md-4 col-sm-6">
-                            <div class="card h-100 shadow-sm border-0 d-flex flex-column text-center p-3">
-                                <a href="{% url 'account:organizer_detail' organizer.id %}">
-                                    <img src="
-                                            {% if organizer.profile_image %}{{ organizer.profile_image.url }}{% else %}{% static 'img/simple-user-default-icon.png' %}{% endif %}"
-                                         class="rounded-circle mx-auto my-3 object-fit-cover"
-                                         style="width: 100px; height: 100px;"
-                                         alt="{{ organizer.username }}">
-                                </a>
-                                <div class="card-body d-flex flex-column flex-grow-1">
-                                    <h5 class="fw-bold text-dark mb-1">
-                                        {{ organizer.username }}
-                                    </h5>
-                                    <p class="badge small text-success mb-3">
-                                        {{ organizer.main_category|default:"Artista" }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {% if forloop.counter|divisibleby:3 or forloop.last %}
-                            </div>
-                            </div>
-                        {% endif %}
-                        {% endfor %}
-
-                    </div>
-
-                    <button class="carousel-control-prev justify-content-start w-auto" type="button"
-                            data-bs-target="#organizerCardCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next justify-content-end w-auto" type="button"
-                            data-bs-target="#organizerCardCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
+        <div class="row justify-content-evenly">
+            <div class="col-12 col-md-6">
+                <img src="{% static 'img/theatre.jpg' %}" alt="Theatre" class="img-fluid rounded-3 mb-3">
             </div>
-        {% endif %}
+            <div class="col-12 col-md-6">
+                <img src="{% static 'img/comedian.jpg' %}" alt="Comedian" class="img-fluid rounded-3 mb-3">
+            </div>
+        </div>
+        <h3>La nostra mission</h3>
+        <p class="text-black-50">La nostra mission è quella di creare un ponte tra artisti e pubblico, permettendo a
+            chiunque di scoprire nuovi talenti e partecipare a eventi unici e indimenticabili.</p>
+        <h3>Un portale all'avanguardia</h3>
+        <p class="text-black-50">Grazie alle più recenti tecnologie e l'uso di framework versatili e potenti, EventsForIndies è una piattaforma robusta, semplice e scalabile.
+            Inoltre, è totalmente open-source, e chiunque può contribuire!</p>
         <h1 class="text-center">
             Sei un artista e vuoi aderire al progetto?
         </h1>
-        <p> Scrivi pure a em.admin@proton.com1</p>
+        <p> Scrivi pure a em.admin@proton.com</p>
     </div>
 
 {% endblock content %}

@@ -16,12 +16,12 @@
                 <form method="GET" action="{% url 'events:event_list' %}" class="row g-3 align-items-center">
                     <p class="fw-semibold fs-4">Filtra per:</p>
                     <div class="col-md-4 col-12">
-                        <label class="form-label text-muted small fw-semibold" for="category">Categoria</label>
+                        <label class="form-label text-muted small fw-semibold mb-1" for="category">Categoria</label>
                         <select id="category" name="category" class="form-select">
                             <option value="">-----</option>
                             {% for category in categories %}
-                                <option value="{{ category }}"
-                                        {% if request.GET.category == category %}selected{% endif %}>
+                                <option value="{{ category.name }}"
+                                        {% if request.GET.category == category.name %}selected{% endif %}>
                                     {{ category }}
                                 </option>
                             {% endfor %}

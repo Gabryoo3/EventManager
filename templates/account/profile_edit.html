@@ -1,33 +1,45 @@
 {% extends 'base.html' %}
-{% block title %}Il tuo profilo{% endblock %}
+{% block title %}Modifica Profilo{% endblock %}
 {% block navbar %}{% endblock %}
+
 {% block content %}
-    <div class="col-md-5 col-12 mx-auto profile-main-infos">
-        <form method="POST" enctype="multipart/form-data" class="card shadow-sm border-0 p-3 text-center">
-            {% csrf_token %}
-            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-                <h4 class="fw-bold mb-0 text-dark">⚙️ Modifica Informazioni</h4>
-            </div>
-            <div class="card-body">
-                {% if account.profile_image %}
-                    <img src="{{ account.profile_image.url }}"
-                         class="rounded-circle img-thumbnail mx-auto mb-3"
-                         alt="Avatar">
-                {% else %}
-                    <div class="bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold profile-logo">
-                        {{ account.username|slice:":1"|upper }}
+<div class="row justify-content-center my-5 align-content-center">
+    <div class="col-12 col-md-6">
+        <div class="card border-0 p-4 shadow-sm">
+            <h2 class="mb-3 fw-bold">Modifica Profilo</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% if account_form.errors or address_form.errors %}
+                    <div class="alert alert-danger shadow mb-3">
+                        <p class="fw-bold mb-1">Si prega di correggere i seguenti errori:</p>
+                        {% for field, errors in account_form.errors.items %}
+                            <p class="mb-0 small"><strong>{{ field|title }}:</strong> {{ errors|striptags }}</p>
+                        {% endfor %}
+                        {% for field, errors in address_form.errors.items %}
+                            <p class="mb-0 small"><strong>{{ field|title }}:</strong> {{ errors|striptags }}</p>
+                        {% endfor %}
                     </div>
                 {% endif %}
-                <div class="w-70 mx-auto">
-                    <label for="id_profile_image" class="form-label text-muted small fw-semibold mb-1">Cambia
-                        Immagine</label>
-                    <input type="file" name="profile_image" id="id_profile_image" class="form-control form-control-sm">
-                    {% if form.profile_image.errors %}
-                        <div class="text-danger small mt-1">{{ form.profile_image.errors.0 }}</div>
-                    {% endif %}
+
+                <div class="mb-4 text-center">
                     {% if account.profile_image %}
-                        <div class="w-70 mx-auto">
-                        <div class="form-check form-switch bg-danger-subtle rounded border border-danger">
+                        <img src="{{ account.profile_image.url }}"
+                             class="rounded-circle img-thumbnail mx-auto mb-3"
+                             style="width: 100px; height: 100px; object-fit: cover;"
+                             alt="Avatar">
+                    {% else %}
+                        <div class="bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold"
+                             style="width: 100px; height: 100px; font-size: 2rem;">
+                            {{ account.username|slice:":1"|upper }}
+                        </div>
+                    {% endif %}
+                    <label for="{{ account_form.profile_image.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Cambia Immagine</label>
+                    <input type="file" name="profile_image" id="{{ account_form.profile_image.id_for_label }}"
+                           class="form-control border-2 {% if account_form.profile_image.errors %}is-invalid{% endif %}">
+                    {% if account.profile_image %}
+                        <div class="form-check form-switch bg-danger-subtle rounded border border-danger mt-2">
                             <input class="form-check-input ms-0 border-danger" type="checkbox"
                                    name="profile_image-clear" id="profile_image-clear_id">
                             <label class="form-check-label fw-semibold small" for="profile_image-clear_id">
@@ -35,99 +47,137 @@
                             </label>
                         </div>
                     {% endif %}
+                </div>
+
+                <div class="mb-4">
+                    <label for="{{ account_form.username.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Username</label>
+                    <input type="text" name="username" id="{{ account_form.username.id_for_label }}"
+                           class="form-control border-2 {% if account_form.username.errors %}is-invalid{% endif %}"
+                           value="{{ account_form.username.value|default:account.username }}" required>
+                    {% for error in account_form.username.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6 col-12">
+                        <label for="{{ account_form.first_name.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Nome</label>
+                        <input type="text" name="first_name" id="{{ account_form.first_name.id_for_label }}"
+                               class="form-control border-2 {% if account_form.first_name.errors %}is-invalid{% endif %}"
+                               value="{{ account_form.first_name.value|default:account.first_name }}">
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="{{ account_form.last_name.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Cognome</label>
+                        <input type="text" name="last_name" id="{{ account_form.last_name.id_for_label }}"
+                               class="form-control border-2 {% if account_form.last_name.errors %}is-invalid{% endif %}"
+                               value="{{ account_form.last_name.value|default:account.last_name }}">
                     </div>
                 </div>
 
-                <div class="w-100 px-3 text-start">
-                    <div class="mb-3">
-                        <label for="id_username" class="form-label text-muted small fw-semibold mb-1">Username</label>
-                        <input type="text" name="username" id="id_username" class="form-control"
-                               value="{{ form.username.value|default:account.username }}">
-                        {% if form.username.errors %}
-                            <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
-                        {% endif %}
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6 col-12">
+                        <label for="{{ account_form.email.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Email</label>
+                        <input type="email" name="email" id="{{ account_form.email.id_for_label }}"
+                               class="form-control border-2 {% if account_form.email.errors %}is-invalid{% endif %}"
+                               value="{{ account_form.email.value|default:account.email }}" required>
+                        {% for error in account_form.email.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
                     </div>
-                    <div class="mb-3">
-                        <label for="id_first_name" class="form-label text-muted small fw-semibold mb-1">Nome</label>
-                        <input type="text" name="first_name" id="id_first_name" class="form-control"
-                               value="{{ form.first_name.value|default:account.first_name }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_last_name" class="form-label text-muted small fw-semibold mb-1">Cognome</label>
-                        <input type="text" name="last_name" id="id_last_name" class="form-control"
-                               value="{{ form.last_name.value|default:account.last_name }}">
-                    </div>
-                </div>
-                <div class="col-12 justify-content-center">
-                    <div class="row g-3">
-
-                        <div class="col-md-6 col-12">
-                            <label for="id_email" class="form-label text-muted small fw-semibold mb-1">Indirizzo
-                                Email</label>
-                            <input type="email" name="email" id="id_email" class="form-control"
-                                   value="{{ form.email.value|default:account.email }}">
-                            {% if form.email.errors %}
-                                <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>{% endif %}
-                        </div>
-
-                        <div class="col-md-6 col-12">
-                            <label for="id_birth_date" class="form-label text-muted small fw-semibold mb-1">Data di
-                                Nascita</label>
-                            <input type="date" name="birth_date" id="id_birth_date" class="form-control"
-                                   value="{{ form.birth_date.value|date:'Y-m-d'|default:'' }}">
-                        </div>
-
-                        <div class="col-md-6 col-12">
-                            <label for="id_phone" class="form-label text-muted small fw-semibold mb-1">Numero di
-                                Telefono</label>
-                            <input type="text" name="phone" id="id_phone" class="form-control"
-                                   value="{{ form.phone.value|default:account.phone|default:'' }}">
-                        </div>
-
-                        <div class="col-sm-6">
-                            <label class="form-label text-muted small fw-semibold mb-1">Indirizzo di Residenza</label>
-
-                            <div class="row g-2 mb-2">
-                                <div class="col-8">
-                                    <label for="id_street_address" class="form-label text-muted xs-small mb-1">Via /
-                                        Piazza</label>
-                                    <input type="text" name="street_address" id="id_street_address" class="form-control"
-                                           placeholder="Es. Via Roma, 10"
-                                           value="{{ form.street_address.value|default:account.address.street_address|default:'' }}">
-                                </div>
-                                <div class="col-4">
-                                    <label for="id_city" class="form-label text-muted xs-small mb-1">Città</label>
-                                    <input type="text" name="city" id="id_city" class="form-control"
-                                           placeholder="Es. Milano"
-                                           value="{{ form.city.value|default:account.address.city|default:'' }}">
-                                </div>
-                            </div>
-
-                            <div class="row g-2">
-                                <div class="col-7">
-                                    <label for="id_state" class="form-label text-muted xs-small mb-1">Provincia</label>
-                                    <input type="text" name="state" id="id_state" class="form-control form-control-sm"
-                                           placeholder="Es. MI"
-                                           value="{{ form.state.value|default:account.address.state|default:'' }}">
-                                </div>
-                                <div class="col-5">
-                                    <label for="id_zip_code" class="form-label text-muted xs-small mb-1">CAP</label>
-                                    <input type="text" name="zip_code" id="id_zip_code"
-                                           class="form-control form-control-sm" placeholder="Es. 20100"
-                                           value="{{ form.zip_code.value|default:account.address.zip_code|default:'' }}">
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-6 col-12">
+                        <label for="{{ account_form.birth_date.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Data di Nascita</label>
+                        <input type="date" name="birth_date" id="{{ account_form.birth_date.id_for_label }}"
+                               class="form-control border-2 {% if account_form.birth_date.errors %}is-invalid{% endif %}"
+                               value="{{ account_form.birth_date.value|default:account.birth_date|date:'Y-m-d' }}" required>
+                        {% for error in account_form.birth_date.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
                     </div>
                 </div>
-                <!--TODO: fix address issue that is not saved -->
-            </div>
-            <div class="d-flex justify-content-center align-items-center mt-4 pb-3 border-bottom">
-                <a href="{% url 'account:profile' %}"
-                   class="btn btn-sm btn-outline-secondary me-2 fw-semibold">Annulla</a>
-                <button type="submit" class="btn btn-sm btn-success px-4 fw-bold shadow-sm">Salva</button>
-            </div>
-        </form>
+
+                <div class="mb-4">
+                    <label for="{{ account_form.phone.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Telefono</label>
+                    <input type="text" name="phone" id="{{ account_form.phone.id_for_label }}"
+                           class="form-control border-2 {% if account_form.phone.errors %}is-invalid{% endif %}"
+                           value="{{ account_form.phone.value|default:account.phone|default:'' }}">
+                </div>
+
+                <h5 class="mb-3 fw-bold text-dark border-top pt-3">Indirizzo di Residenza</h5>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6 col-12">
+                        <label for="{{ address_form.street_address.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Via / Piazza</label>
+                        <input type="text" name="street_address" id="{{ address_form.street_address.id_for_label }}"
+                               class="form-control border-2 {% if address_form.street_address.errors %}is-invalid{% endif %}"
+                               value="{{ address_form.street_address.value|default:account.address.street_address|default:'' }}">
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="{{ address_form.city.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Città</label>
+                        <input type="text" name="city" id="{{ address_form.city.id_for_label }}"
+                               class="form-control border-2 {% if address_form.city.errors %}is-invalid{% endif %}"
+                               value="{{ address_form.city.value|default:account.address.city|default:'' }}">
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6 col-12">
+                        <label for="{{ address_form.region.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Regione</label>
+                        <input type="text" name="region" id="{{ address_form.region.id_for_label }}"
+                               class="form-control border-2 {% if address_form.region.errors %}is-invalid{% endif %}"
+                               value="{{ address_form.region.value|default:account.address.region|default:'' }}">
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="{{ address_form.state.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Provincia</label>
+                        <input type="text" name="state" id="{{ address_form.state.id_for_label }}"
+                               class="form-control border-2 {% if address_form.state.errors %}is-invalid{% endif %}"
+                               value="{{ address_form.state.value|default:account.address.state|default:'' }}">
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6 col-12">
+                        <label for="{{ address_form.zip_code.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">CAP</label>
+                        <input type="text" name="zip_code" id="{{ address_form.zip_code.id_for_label }}"
+                               class="form-control border-2 {% if address_form.zip_code.errors %}is-invalid{% endif %}"
+                               value="{{ address_form.zip_code.value|default:account.address.zip_code|default:'' }}">
+                    </div>
+                </div>
+
+                {% if user.is_organizer %}
+                <h5 class="mb-3 fw-bold text-dark border-top pt-3">Informazioni Artista</h5>
+
+                <div class="mb-4">
+                    <label for="{{ account_form.stage_name.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Nome d'arte</label>
+                    <input type="text" name="stage_name" id="{{ account_form.stage_name.id_for_label }}"
+                           class="form-control border-2 {% if account_form.stage_name.errors %}is-invalid{% endif %}"
+                           value="{{ account_form.stage_name.value|default:account.stage_name|default:'' }}">
+                </div>
+
+                <div class="mb-4">
+                    <label for="{{ account_form.main_category.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Categoria principale</label>
+                    <select name="main_category" id="{{ account_form.main_category.id_for_label }}"
+                            class="form-select border-2 {% if account_form.main_category.errors %}is-invalid{% endif %}">
+                        {% for choice in account_form.main_category.field.choices %}
+                            <option value="{{ choice.0 }}" {% if account_form.main_category.value == choice.0 %}selected{% endif %}>
+                                {{ choice.1 }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="{{ account_form.organizer_description.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Descrizione</label>
+                    <textarea name="organizer_description" id="{{ account_form.organizer_description.id_for_label }}"
+                              rows="4" class="form-control border-2 {% if account_form.organizer_description.errors %}is-invalid{% endif %}">{{ account_form.organizer_description.value|default:account.organizer_description|default:'' }}</textarea>
+                </div>
+                {% endif %}
+
+                <div class="d-flex justify-content-between gap-3 border-top pt-4">
+                    <a href="{% url 'account:profile' %}" class="btn btn-light px-4 fw-bold text-secondary">Annulla</a>
+                    <button type="submit" class="btn btn-success px-5 fw-bold shadow-sm">Salva Modifiche</button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 {% endblock %}
-

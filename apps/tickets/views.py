@@ -34,11 +34,14 @@ class BuyTicket(LoginRequiredMixin, View):
 
 class TicketDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Ticket
-    template_name = 'tickets/ticket_confirm_delete.html'
-    success_url = reverse_lazy('events:event_list')
+    success_url = reverse_lazy('tickets:list')
+    success_message = 'Biglietto eliminato con successo!'
     def test_func(self):
         ticket = self.get_object()
         return self.request.user == ticket.buyer
+    def form_valid(self, form):
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
 
 class TicketDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Ticket

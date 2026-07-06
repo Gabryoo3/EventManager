@@ -25,9 +25,9 @@ class AddressUpdateForm(forms.ModelForm):
         fields = ['street_address', 'city', 'region', 'state', 'zip_code']
 
 class AccountUpdateForm(forms.ModelForm):
-    class Meta(UserCreationForm.Meta):
+    class Meta:
         model = Account
-        fields = ['username', 'first_name', 'last_name', 'email', 'birth_date', 'phone','profile_image']
+        fields = ['username', 'first_name', 'last_name', 'email', 'birth_date', 'phone','profile_image', 'stage_name', 'organizer_description', 'main_category']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}),
         }
