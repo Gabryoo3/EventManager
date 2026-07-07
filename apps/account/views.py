@@ -15,14 +15,15 @@ from apps.events.models import Event
 # Create your views here.
 
 class RegisterView(View):
-    template_name = 'account/register.html'
+    template_name = 'account/register_edit.html'
     success_message = 'Account creato con successo! Effettua il login per continuare.'
     def get(self, request, *args, **kwargs):
         account_form = AccountCreationForm()
         address_form = AddressCreationForm()
         return render(request, self.template_name, {
             'account_form': account_form,
-            'address_form': address_form
+            'address_form': address_form,
+            'is_update' : False
         })
 
     def post(self, request, *args, **kwargs):
@@ -48,7 +49,7 @@ class AccountDetailView(LoginRequiredMixin, DetailView):
         return Account.objects.select_related('address').get(pk=self.request.user.pk)
 
 class AccountUpdateView(LoginRequiredMixin, View):
-    template_name = 'account/profile_edit.html'
+    template_name = 'account/register_edit.html'
     model = Account
     form_class = AccountUpdateForm
     success_message = 'Informazioni dell\'account aggiornate!'
@@ -59,7 +60,8 @@ class AccountUpdateView(LoginRequiredMixin, View):
         return render(request, self.template_name, {
             'account_form': account_form,
             'address_form': address_form,
-            'account': request.user
+            'account': request.user,
+            'is_update' : True
         })
     def post(self, request, *args, **kwargs):
         account_form = self.form_class(request.POST, request.FILES, instance=request.user)
@@ -80,7 +82,7 @@ class AccountUpdateView(LoginRequiredMixin, View):
         return self.request.user
 
 class AddressUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'account/profile_edit.html'
+    template_name = 'account/register_edit.html'
     model = Address
     form_class = AddressUpdateForm
     success_url = reverse_lazy('account:profile')

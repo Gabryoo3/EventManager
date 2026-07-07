@@ -43,3 +43,10 @@ td img{
     flex-shrink: 0;
 }
 
+.event-card-img {
+    height: 400px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+

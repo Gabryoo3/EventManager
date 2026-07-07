@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from apps.core.models import BaseModel
 from django.db import models
 from django.utils import timezone
+from PIL import Image as PilImage, ImageOps
 
 
 def check_mayor(value):
@@ -37,3 +38,10 @@ class Account(AbstractUser, BaseModel):
     stage_name = models.CharField(max_length=30, blank=True, null=True)
     organizer_description = models.TextField(blank=True, null=True)
     REQUIRED_FIELDS = ['first_name', 'last_name', 'birth_date']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.profile_image:
+            pil_img = PilImage.open(self.profile_image.path)
+            pil_img = ImageOps.fit(pil_img, (250,400), PilImage.Resampling.LANCZOS)
+            pil_img.save(self.profile_image.path)

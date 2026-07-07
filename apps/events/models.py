@@ -4,7 +4,7 @@ from django.conf import settings
 from apps.core.models import BaseModel
 from apps.account.models import Address
 from django.utils import timezone
-import uuid
+from PIL import Image as PilImage, ImageOps
 
 
 class Category(BaseModel):
@@ -16,7 +16,7 @@ class Category(BaseModel):
 def check_date(value):
     today = timezone.localdate()
     if value <= today:
-        raise ValidationError("You can't create an event for today or before today.")
+        raise ValidationError("Non puoi creare un evento prima della data corrente!")
 
 
 class Event(BaseModel):
@@ -35,6 +35,12 @@ class Event(BaseModel):
     def __str__(self):
         return f"{self.title} - {self.date}"
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.image:
+            pil_img = PilImage.open(self.image.path)
+            pil_img = ImageOps.fit(pil_img, (250,400), PilImage.Resampling.LANCZOS)
+            pil_img.save(self.image.path)
     @property
     def remaining_seats(self):
         from apps.tickets.models import Ticket

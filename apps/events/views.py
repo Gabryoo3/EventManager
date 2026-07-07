@@ -50,7 +50,8 @@ class EventCreateView(LoginRequiredMixin, View, SuccessMessageMixin):
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {
             'form': self.form_class(),
-            'address_form' : AddressCreationForm()
+            'address_form' : AddressCreationForm(),
+            'is_update' : False
         })
     def post(self, request, *args, **kwargs):
         event_form = self.form_class(data=request.POST, files=request.FILES)
@@ -72,14 +73,15 @@ class EventCreateView(LoginRequiredMixin, View, SuccessMessageMixin):
 class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
     model = Event
     template_name = 'events/event_form.html'
-    success_url = reverse_lazy('events:event_list')
+    success_url = reverse_lazy('events:organizer_events_list')
     success_message = 'Evento modificato con successo!'
     def get(self, request, *args, **kwargs):
         event = get_object_or_404(Event, pk=kwargs['pk'])
         address = event.location
         return render(request, self.template_name, {
             'form': EventForm(instance=event),
-            'address_form' : AddressUpdateForm(instance=address)
+            'address_form' : AddressUpdateForm(instance=address),
+            'is_update' : True
         })
     def post(self, request, *args, **kwargs):
         event = get_object_or_404(Event, pk=kwargs['pk'])
@@ -88,13 +90,13 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
         addressForm = AddressUpdateForm(data=request.POST, instance=address)
         if eventForm.is_valid() and addressForm.is_valid():
             save_address=addressForm.save()
-            eventForm.save(commit=False)
-            event.location = save_address
-            eventForm.save()
+            event_update = eventForm.save(commit=False)
+            event_update.location = save_address
+            event_update.save()
             messages.success(request, self.success_message)
-            return redirect('events:organizer_events_list')
+            return redirect(self.success_url)
         return render(request, self.template_name, {
-            'form' : EventForm(instance=event),
+            'form' : EventForm,
             'address_form' : AddressUpdateForm(request.POST),
         })
     def test_func(self):
@@ -117,7 +119,7 @@ class HomepageCarouselView(ListView):
     template_name = 'index.html'
     context_object_name = 'upcoming_events'
     def get_queryset(self):
-        return Event.objects.filter(date__gte=timezone.now()).prefetch_related('event_tickets').order_by('-date')[:7]
+        return Event.objects.filter(date__gte=timezone.now()).prefetch_related('event_tickets').order_by('date')[:7]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -150,7 +152,7 @@ class OrganizerEventsListView(LoginRequiredMixin, ListView):
     template_name = 'events/organizer_list.html'
     context_object_name = 'organizer_events'
     def get_queryset(self):
-        return Event.objects.filter(organizer=self.request.user).order_by('-date')
+        return Event.objects.filter(organizer=self.request.user).order_by('date')
 
 class ContactUsView(TemplateView):
     template_name = 'contacts.html'

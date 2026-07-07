@@ -46,11 +46,11 @@
         {% for event in events %}
             {% if event.remaining_seats > 0 %}
                 <div class="col-12 col-md-6 col-lg-3 d-flex align-items-stretch">
-                <div class="card shadow rounded-3 overflow-hidden w-100 d-flex flex-column">
+                <div class="card shadow rounded-3 overflow-hidden w-100 d-flex flex-column event-card">
                 {% if event.image %}
-                    <img src="{{ event.image.url }}" class="card-img-top img-fluid" alt="{{ event.title }}">
+                    <img src="{{ event.image.url }}" class="card-img-top img-fluid event-card-img" alt="{{ event.title }}">
                 {% else %}
-                    <img src="{% static 'img/default_event_image.jpg' %}" class="card-img-top img-fluid"
+                    <img src="{% static 'img/default_event_image.jpg' %}" class="card-img-top img-fluid event-card-img"
                          alt="{{ event.title }}">
                 {% endif %}
 

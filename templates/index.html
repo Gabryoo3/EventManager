@@ -36,7 +36,6 @@
                                     <p>{{ event.description|truncatewords:10 }}</p>
                                     </div>
                                 </div>
-
                             </div>
                         {% endfor %}
                     </div>
@@ -48,13 +47,13 @@
         {% endif %}
     </div>
     {% if selling_out_events %}
-        <div class="row">
-            <h5 class="text-center">Eventi in esaurimento</h5>
+        <div class="row mt-4">
+            <h4 class="text-center text-danger bg-danger-subtle text-uppercase">!!!!Eventi in esaurimento!!!!</h4>
             {% for event in selling_out_events %}
-                <div class="col-md-4 mb-4">
+                <div class="col-3 mb-4">
                     <div class="card h-100">
                         <a href={% url 'events:event_detail' event.id %}><img src="{{ event.image.url }}"
-                                                                              class="card-img-top"
+                                                                              class="card-img-top img-fluid"
                                                                               alt="{{ event.title }}"></a>
                         <div class="card-body">
                             <h5 class="card-title">{{ event.title }}</h5>
