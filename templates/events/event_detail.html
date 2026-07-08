@@ -43,6 +43,7 @@
                             </button>
                         {% else %}
                             {% if user == event.organizer %}
+                                <h4>Biglietti acquistati: {{ event.tickets }}</h4>
                                 <div class="row justify-content-start mb-3">
                                     <div class="col-md-4 col-12">
                                         <a href="{% url 'events:event_update' pk=event.id %}"
