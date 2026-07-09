@@ -25,6 +25,5 @@ urlpatterns = [
     path('', include('apps.account.urls')),
     path('', include('apps.events.urls')),
     path('', include('apps.tickets.urls')),
-
     path('__reload__/', include("django_browser_reload.urls")),
 ]
