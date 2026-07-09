@@ -9,6 +9,7 @@
         {% endif %}
         <div class="col-3 event-img">
             <img src="
+
                     {% if event.image %}{{ event.image.url }}{% else %}{% static 'img/default_event_image.jpg' %}{% endif %}"
                  alt="{{ event.title }}" class="rounded-2 shadow img-fluid mt-3">
         </div>
@@ -45,9 +46,6 @@
                         {% else %}
                             {% if user == event.organizer %}
                                 <h4>Biglietti acquistati: {{ event.event_tickets.count }} / {{ event.seats }}</h4>
-                                {% if event.event_tickets.count == event.seats %}
-
-                                {% endif %}
                                 <div class="row justify-content-start mb-3">
                                     <div class="col-md-4 col-12">
                                         <a href="{% url 'events:event_update' pk=event.id %}"
@@ -70,8 +68,13 @@
                 </form>
             {% else %}
                 {% if not user == event.organizer %}
+                    <h4 class="text-muted">
+                        Posti rimasti: <span
+                            class="fw-bold">{{ event.remaining_seats }} / {{ event.seats }}</span>
+                    </h4>
                     <h3 class="alert text-danger alert-danger text-center py-2 mb-0 shadow">SOLD OUT!</h3>
                 {% else %}
+                    <h4>Biglietti acquistati: {{ event.event_tickets.count }} / {{ event.seats }}</h4>
                     <h3 class="alert text-success alert-success text-center py-2 mb-0 shadow">SOLD OUT!</h3>
                 {% endif %}
             {% endif %}
