@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-^%r91k1%x2hp)4489=d+(811kpfk-ol4d32cj^t4jht-9n4yeq
 DEBUG = True
 
 ALLOWED_HOSTS = [
-'eventsforindies.onrender.com',
+'Gabryoo3.eu.pythonanywhere.com',
 'localhost',
 '127.0.0.1',
 ]
@@ -134,7 +134,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/ 'media'
