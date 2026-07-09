@@ -26,10 +26,11 @@
                     <div class="carousel-inner">
                         {% for event in upcoming_events %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <a href={% url 'events:event_detail' event.id %}>
                                 <img src="
                                         {% if event.image %}{{ event.image.url }}{% else %}{% static 'img/default_event_image.jpg' %}{% endif %}"
                                      alt="{{ event.title }}" class="d-block w-50 mx-auto rounded-2">
-                                <a href={% url 'events:event_detail' event.id %}></a>
+                                </a>
                                 <div class="carousel-caption d-block justify-content-center w-50 mx-auto">
                                     <div class="bg-primary rounded-3 bg-opacity-50">
                                     <h5>{{ event.title }}</h5>

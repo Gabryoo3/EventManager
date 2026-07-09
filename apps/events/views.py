@@ -156,3 +156,4 @@ class OrganizerEventsListView(LoginRequiredMixin, ListView):
 
 class ContactUsView(TemplateView):
     template_name = 'contacts.html'
+
