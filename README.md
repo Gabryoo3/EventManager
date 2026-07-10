@@ -87,8 +87,10 @@ che vengono invitati a fare il login per poter prenotare i biglietti.
 ### Gestione biglietti
 - Gli utenti loggati possono visualizzare i biglietti acquistati, raggruppati per evento per una migliore visualizzazione. Il biglietto riporta le stesse info dell'evento, e permette l'eliminazione del biglietto con l'apposito tasto.
 - Oltre all'id del db, il biglietto ha anche un codice univoco casuale. Utile per una futura implementazione tramite QR.
-- I biglietti sono creati al momento dell'acquisto, e conteggiati dinamicamente all'evento: se un biglietto viene eliminato, il numero di biglietti disponibili per quell'evento aumenta di conseguenza. 
+- I biglietti sono creati al momento dell'acquisto, e conteggiati dinamicamente all'evento: se un biglietto viene eliminato, il numero di biglietti disponibili per quell'evento aumenta di conseguenza.
 
+### Pagina Admin
+- Accedendo con url /admin, si può accedere alla pagina di amministrazione, dove è possibile creare nuovi artisti, eventi e utenti, e gestire i vari aspetti dell'app.
 
 
 
