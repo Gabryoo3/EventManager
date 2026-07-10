@@ -12,9 +12,9 @@ Questo progetto punta a creare una piattaforma per gestire eventi dedicati agli 
 ## Esecuzione locale
 ### Scaricando il progetto
 Lanciare i seguenti comandi:
-pip install -r requirements.txt
-python manage.py makemigrations
-python manage.py migrate
+- pip install -r requirements.txt
+- python manage.py makemigrations
+- python manage.py migrate
 
 Il database sarà prepopolato di default.
 
