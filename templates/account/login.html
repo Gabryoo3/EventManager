@@ -6,35 +6,34 @@
         <div class="col-md-5">
             <div class="shadow border-0 p-4">
                 <h2 class="fw-bold mb-3 text-center">Accedi</h2>
-                <form method="POST" enctype="multipart/form-data" novalidate>
+                <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                   {% if account_form.errors %}
+                    {% if form.errors %}
                         <div class="alert alert-danger shadow mb-3">
-                            <p class="fw-bold mb-1">Si prega di correggere i seguenti errori:</p>
-                            {% for field, errors in account_form.errors.items %}
-                                <p class="mb-0 small"><strong>{{ field|title }}:</strong> {{ errors|striptags }}</p>
-                            {% endfor %}
-                            {% for field, errors in address_form.errors.items %}
-                                <p class="mb-0 small"><strong>{{ field|title }}:</strong> {{ errors|striptags }}</p>
+                            <p class="fw-bold mb-1">Username o password errati.</p>
+                            {% for error in form.non_field_errors %}
+                                <p class="mb-0 small">{{ error }}</p>
                             {% endfor %}
                         </div>
                     {% endif %}
 
                     <div class="mb-4">
-                        <label for="{{ account_form.username.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Username</label>
-                        <input type="text" name="username" id="{{ account_form.username.id_for_label }}"
-                               class="form-control border-2 {% if account_form.username.errors %}is-invalid{% endif %}"
-                               value="{{ account_form.username.value|default:'' }}" required>
-                        {% for error in account_form.username.errors %}
+                        <label for="{{ form.username.id_for_label }}"
+                               class="form-label text-muted small fw-semibold mb-1">Username</label>
+                        <input type="text" name="username" id="{{ form.username.id_for_label }}"
+                               class="form-control border-2 {% if form.username.errors %}is-invalid{% endif %}"
+                               value="{{ form.username.value|default:'' }}" required>
+                        {% for error in form.username.errors %}
                             <div class="invalid-feedback d-block">{{ error }}</div>
                         {% endfor %}
                     </div>
                     <div class="mb-4">
-                        <label for="{{ account_form.password.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Password</label>
-                        <input type="password" name="password" id="{{ account_form.password.id_for_label }}"
-                               class="form-control border-2 {% if account_form.password.errors %}is-invalid{% endif %}"
+                        <label for="{{ form.password.id_for_label }}"
+                               class="form-label text-muted small fw-semibold mb-1">Password</label>
+                        <input type="password" name="password" id="{{ form.password.id_for_label }}"
+                               class="form-control border-2 {% if form.password.errors %}is-invalid{% endif %}"
                                required>
-                        {% for error in account_form.password.errors %}
+                        {% for error in form.password.errors %}
                             <div class="invalid-feedback d-block">{{ error }}</div>
                         {% endfor %}
                     </div>

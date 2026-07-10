@@ -22,13 +22,15 @@ class EventListView(ListView):
         query_title = self.request.GET.get('title')
         category_name = self.request.GET.get('category')
         organizer_stagename = self.request.GET.get('organizer')
-        remaining_seats = self.request.GET.get('remaining_seats')
+        city = self.request.GET.get('city')
         if query_title:
             queryset = queryset.filter(title__icontains=query_title)
         if category_name:
             queryset = queryset.filter(category__name__iexact=category_name)
         if organizer_stagename:
             queryset = queryset.filter(organizer__stage_name__icontains=organizer_stagename)
+        if city:
+            queryset = queryset.filter(location__city__icontains=city)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -133,18 +135,6 @@ class HomepageCarouselView(ListView):
             tickets_remaining__gt=0,
             tickets_remaining__lte=15
         ).order_by('tickets_remaining')[:3]
-        return context
-
-class EventAttendeeListView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = Event
-    template_name = 'events/event_attendees.html'
-    context_object_name = 'event_attendees'
-    def test_func(self):
-        event = self.get_object()
-        return self.request.user == event.organizer
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tickets'] = self.get_object().tickets.all().select_related('buyer').order_by('created_at')
         return context
 
 class OrganizerEventsListView(LoginRequiredMixin, ListView):

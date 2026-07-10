@@ -34,7 +34,14 @@
                                placeholder="Nome d'arte..."
                                value="{{ request.GET.organizer|default:'' }}">
                     </div>
-                    <div class="col-md-4 col-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                    <div class="col-md-4 col-12">
+                        <label class="form-label text-muted small fw-semibold mb-1"
+                               for="city">Città</label>
+                        <input type="text" id="city" name="city" class="form-control"
+                               placeholder="es.Roma"
+                               value="{{ request.GET.city|default:'' }}">
+                    </div>
+                    <div class="col-md-4 col-12 gap-2 justify-content-md-end">
                         <button type="submit" class="btn btn-primary">Filtra</button>
                         <a href="{% url 'events:event_list' %}" class="btn btn-outline-secondary">Reset</a>
                     </div>

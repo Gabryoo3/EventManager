@@ -56,7 +56,7 @@ class TicketListView(LoginRequiredMixin, ListView):
     template_name = 'tickets/ticket_list.html'
     context_object_name = 'tickets'
     def get_queryset(self):
-        return Ticket.objects.filter(buyer=self.request.user).select_related('event')
+        return Ticket.objects.filter(buyer=self.request.user).select_related('event').order_by('event', 'created_at')
 
 
 

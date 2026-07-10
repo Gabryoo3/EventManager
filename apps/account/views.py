@@ -35,7 +35,7 @@ class RegisterView(View):
             user.address = address_instance
             user.save()
             messages.success(request, self.success_message)
-            return redirect('/login')
+            return redirect('account:login')
         return render(request, self.template_name, {
             'account_form': account_form,
             'address_form': address_form
