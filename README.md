@@ -31,18 +31,18 @@ al genere di spettacolo che andrà a tenere). ATTENZIONE: per semplicità, l'org
    Password: Admin25!
  - **Organizzatore**:
    - Username: organiz1 | 
-   Password: Organizzatore1!
+   Password: DemoOrg1!
    - Username: organiz2 | 
-   Password: Organizzatore2!
+   Password: DemoOrg2!
    - Username: organiz3 | 
-   Password: Organizzatore3!
+   Password: DemoOrg3!
  - **Utente**:
    - Username: user1 | 
-   Password: User1!
+   Password: DemoUser1!
    - Username: user2 | 
-   Password: User2!
+   Password: DemoUser2!
    - Username: user3 | 
-   Password: User3!
+   Password: DemoUser3!
 
 ## Piccola Demo
 ### Home page
@@ -91,6 +91,7 @@ che vengono invitati a fare il login per poter prenotare i biglietti.
 
 ### Pagina Admin
 - Accedendo con url /admin, si può accedere alla pagina di amministrazione, dove è possibile creare nuovi artisti, eventi e utenti, e gestire i vari aspetti dell'app.
+- NOTA FONDAMENTALE: fare logout da admin, altrimenti la sessione verrà presa dal sito e non si potrà più accedere come utente o organizzatore.
 
 
 
