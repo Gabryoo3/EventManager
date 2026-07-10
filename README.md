@@ -36,7 +36,7 @@ al genere di spettacolo che andrà a tenere). ATTENZIONE: per semplicità, l'org
    - Password: Organizzatore2!
    - Username: organiz3
    - Password: Organizzatore3!
-   - **Utente**:
+ - **Utente**:
    - Username: user1
    - Password: User1!
    - Username: user2
