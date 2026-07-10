@@ -27,22 +27,22 @@ al genere di spettacolo che andrà a tenere). ATTENZIONE: per semplicità, l'org
 - **Utente**: può visualizzare gli eventi, prenotare biglietti, gestirli e gestire il proprio profilo. Può cambiare i campi più comuni e il suo indirizzo di casa.
 ## Elenco utenti divisi per ruolo
  -**Admin**:
-    - Username: admin
-    - Password: Admin25!
+ - Username: admin
+ - Password: Admin25!
  -**Organizzatore**:
-    - Username: organiz1
-    - Password: Organizzatore1!
-    - Username: organiz2
-    - Password: Organizzatore2!
-    - Username: organiz3
-    - Password: Organizzatore3!
-    -**Utente**:
-    -Username: user1
-    -Password: User1!
-    -Username: user2
-    -Password: User2!
-    -Username: user3
-    -Password: User3!
+   - Username: organiz1
+   - Password: Organizzatore1!
+   - Username: organiz2
+   - Password: Organizzatore2!
+   - Username: organiz3
+   - Password: Organizzatore3!
+   - **Utente**:
+   - Username: user1
+   - Password: User1!
+   - Username: user2
+   - Password: User2!
+   - Username: user3
+   - Password: User3!
 
 ## Piccola Demo
 ### Home page
