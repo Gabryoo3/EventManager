@@ -26,7 +26,7 @@ modificando tutti i suoi campi più comuni o la password, ma anche il suo nome d
 al genere di spettacolo che andrà a tenere). ATTENZIONE: per semplicità, l'organizzatore dell'evento è anche l'artista che terrà lo spettacolo, quindi non è possibile creare eventi con artisti diversi dall'organizzatore stesso.
 - **Utente**: può visualizzare gli eventi, prenotare biglietti, gestirli e gestire il proprio profilo. Può cambiare i campi più comuni e il suo indirizzo di casa.
 ## Elenco utenti divisi per ruolo
- -**Admin**:
+ - **Admin**:
  - Username: admin
  - Password: Admin25!
  -**Organizzatore**:
