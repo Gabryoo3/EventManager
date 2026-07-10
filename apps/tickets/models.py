@@ -8,7 +8,7 @@ import uuid
 class Ticket(BaseModel):
     buyer = models.ForeignKey(Account, on_delete=models.PROTECT, related_name='tickets')
     #for knowing when the ticket is purchased, use created_at of the base model
-    #tickets are not nominative, they won't correspond to the buyer directly (the buyer can buy multiple tickets for friends like)
+    #tickets are not nominative, they won't correspond to the buyer directly (the buyer can buy multiple tickets for friends)
     price = models.PositiveIntegerField(default=0)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_tickets')
     ticket_code = models.CharField(max_length=100, unique=True, blank=True)
