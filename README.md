@@ -29,7 +29,7 @@ al genere di spettacolo che andrà a tenere). ATTENZIONE: per semplicità, l'org
  -**Admin**:
  - Username: admin
  - Password: Admin25!
- -**Organizzatore**:
+ - **Organizzatore**:
    - Username: organiz1
    - Password: Organizzatore1!
    - Username: organiz2
