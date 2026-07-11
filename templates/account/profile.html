@@ -8,19 +8,19 @@
             Menu laterale
         </button>
     </div>
-    <p class="text-start fw-bold fs-1 ps-3">Le tue info</p>
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasProfile"
-             aria-labelledby="offcanvasProfileLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasProfileLabel">Menu</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                {% include 'account/includes/_sidebar_content.html' %}
-            </div>
+    <p class="text-start fw-bold fs-1 ps-3 mt-3">Le tue info</p>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasProfile"
+         aria-labelledby="offcanvasProfileLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasProfileLabel">Menu</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
         </div>
-        <div class="row">
+        <div class="offcanvas-body">
+            {% include 'account/includes/_sidebar_content.html' %}
+        </div>
+    </div>
+    <div class="row">
         <aside class="col-md-3 d-none d-md-block">
             <div class="card shadow-sm border-0 p-3 sticky-top">
                 {% include 'account/includes/_sidebar_content.html' %}
@@ -47,15 +47,16 @@
                     </span>
                     <div class="row">
                         <div class="col-md-6 col-12 pt-3">
-                            <h5 class="mb-1 py-1">Email: {{ account.email }}</h5>
-                            <h5 class="mb-1 py-1">Data di nascita: {{ account.birth_date }}</h5>
+                            <h5 class="mb-1 py-1">Email: <br> {{ account.email }}</h5>
+                            <h5 class="mb-1 py-1">Data di nascita: <br> {{ account.birth_date }}</h5>
                         </div>
                         <div class="col-md-6 col-12 pt-3">
-                            <h5 class="mb-1 py-1">Telefono: {{ account.phone }}</h5>
+                            <h5 class="mb-1 py-1">Telefono: <br> {{ account.phone }}</h5>
                             <h5 class="mb-1 py-1">
                                 {% if account.address %}
-                                    Indirizzo: {{ account.address.street_address }}, {{ account.address.city }},
-                                    {{ account.address.region }},{{ account.address.state }}, {{ account.address.zip_code }}
+                                    Indirizzo: <br> {{ account.address.street_address }}, {{ account.address.city }},
+                                    {{ account.address.region }},{{ account.address.state }},
+                                    {{ account.address.zip_code }}
                                 {% else %}
                                     Nessun indirizzo salvato
                                 {% endif %}
@@ -63,12 +64,21 @@
                         </div>
                     </div>
                     {% if user.is_organizer %}
-                    <div class="row">
-
-                        <div class="col-md-6 col-12">
-
+                        <div class="row justify-content-center">
+                            <div class="col-md-6 col-12">
+                                <h4 class="border-bottom border-3">Parte organizzatore</h4>
+                            </div>
                         </div>
-                    </div>
+                            <div class="row">
+                                <div class="col-md-6 col-12 pt-3">
+                                    <h5 class="mb-1 py-1">Nome d'arte: <br> {{ account.stage_name }}</h5>
+                                    <h5 class="mb-1 py-1">Genere principale: <br> {{ account.main_category }}</h5>
+                                </div>
+                                <div class="col-12">
+                                    <h5 class="mb-1 py-1">Descrizione: <br> {{ account.organizer_description }}</h5>
+                                </div>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
             </div>

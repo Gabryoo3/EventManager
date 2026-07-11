@@ -26,19 +26,19 @@ class AddressAdmin(admin.ModelAdmin):
 @admin.register(Account)
 class AccountAdmin(UserAdmin):
     form = OrganizerAdminForm
-    list_display = ('username', 'email', 'first_name', 'last_name', 'birth_date', 'is_organizer', 'main_category', 'stage_name','created_at')
+    list_display = ('username', 'email', 'first_name', 'last_name', 'birth_date', 'is_organizer', 'main_category', 'stage_name', 'organizer_description','created_at')
     list_filter = ('is_organizer',)
     readonly_fields = tuple(UserAdmin.readonly_fields or ()) + ('created_at',)
 
     fieldsets = tuple(UserAdmin.fieldsets or ()) + (
         ('Extra Info', {
-            'fields': ('birth_date', 'address', 'phone','is_organizer', 'main_category', 'stage_name', 'created_at')
+            'fields': ('birth_date', 'address', 'phone','is_organizer', 'main_category', 'stage_name', 'organizer_description','created_at')
         }),
     )
     add_fieldsets = tuple(UserAdmin.add_fieldsets or ()) + (
         ('Extra Info', {
             'classes': ('wide',),
-            'fields': ('first_name', 'last_name', 'birth_date', 'email', 'phone', 'address', 'is_organizer','main_category', 'stage_name', 'profile_image')
+            'fields': ('first_name', 'last_name', 'birth_date', 'email', 'phone', 'address', 'is_organizer','main_category', 'stage_name', 'profile_image', 'organizer_description')
         }),
     )
 
