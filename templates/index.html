@@ -26,15 +26,16 @@
                     <div class="carousel-inner">
                         {% for event in upcoming_events %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <a href={% url 'events:event_detail' event.id %}>
-                                <img src="
-                                        {% if event.image %}{{ event.image.url }}{% else %}{% static 'img/default_event_image.jpg' %}{% endif %}"
-                                     alt="{{ event.title }}" class="d-block w-50 mx-auto rounded-2">
+                                <a href={% url 'events:event_detail' event.id %}>
+                                    <img src="
+
+                                            {% if event.image %}{{ event.image.url }}{% else %}{% static 'img/default_event_image.jpg' %}{% endif %}"
+                                         alt="{{ event.title }}" class="d-block w-50 mx-auto rounded-2">
                                 </a>
                                 <div class="carousel-caption d-block justify-content-center w-50 mx-auto">
                                     <div class="bg-primary rounded-3 bg-opacity-50">
-                                    <h5>{{ event.title }}</h5>
-                                    <p>{{ event.description|truncatewords:10 }}</p>
+                                        <h5>{{ event.title }}</h5>
+                                        <p>{{ event.description|truncatewords:10 }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -53,9 +54,11 @@
             {% for event in selling_out_events %}
                 <div class="col-3 mb-4">
                     <div class="card h-100">
-                        <a href={% url 'events:event_detail' event.id %}><img src="{{ event.image.url }}"
-                                                                              class="card-img-top img-fluid"
-                                                                              alt="{{ event.title }}"></a>
+                        <a href={% url 'events:event_detail' event.id %}><img
+                                src="{% if event.image %}{{ event.image.url }}{% else %}
+                                {% static 'img/default_event_image.jpg' %}{% endif %}"
+                                class="card-img-top img-fluid"
+                                alt="{{ event.title }}"></a>
                         <div class="card-body">
                             <h5 class="card-title">{{ event.title }}</h5>
                             <p class="card-text">Solo {{ event.remaining_seats }} posti!</p>
@@ -78,14 +81,15 @@
                 <img src="{% static 'img/theatre.jpg' %}" alt="Theatre" class="img-fluid rounded-3 mb-3">
             </div>
             <div class="col-12 col-md-6">
-                <img src="{% static 'img/comedian.jpg' %}" alt="Comedian" class="img-fluid rounded-3 mb-3">
+                <img src="{% static 'img/microphone.jpg' %}" alt="Microphone" class="img-fluid rounded-3 mb-3">
             </div>
         </div>
         <h3>La nostra mission</h3>
         <p class="text-black-50">La nostra mission è quella di creare un ponte tra artisti e pubblico, permettendo a
             chiunque di scoprire nuovi talenti e partecipare a eventi unici e indimenticabili.</p>
         <h3>Un portale all'avanguardia</h3>
-        <p class="text-black-50">Grazie alle più recenti tecnologie e l'uso di framework versatili e potenti, EventsForIndies è una piattaforma robusta, semplice e scalabile.
+        <p class="text-black-50">Grazie alle più recenti tecnologie e l'uso di framework versatili e potenti,
+            EventsForIndies è una piattaforma robusta, semplice e scalabile.
             Inoltre, è totalmente open-source, e chiunque può contribuire!</p>
         <h1 class="text-center">
             Sei un artista e vuoi aderire al progetto?

@@ -90,8 +90,11 @@ che vengono invitati a fare il login per poter prenotare i biglietti.
 - I biglietti sono creati al momento dell'acquisto, e conteggiati dinamicamente all'evento: se un biglietto viene eliminato, il numero di biglietti disponibili per quell'evento aumenta di conseguenza.
 
 ### Pagina Admin
-- Accedendo con url /admin, si può accedere alla pagina di amministrazione, dove è possibile creare nuovi artisti, eventi e utenti, e gestire i vari aspetti dell'app.
-- NOTA FONDAMENTALE: fare logout da admin, altrimenti la sessione verrà presa dal sito e non si potrà più accedere come utente o organizzatore.
+- Accedendo con url /admin, si può accedere alla pagina di amministrazione, dove è possibile creare nuovi artisti e categorie. Si può anche creare utenti ed eventi.
+- NOTA FONDAMENTALE: per login e logout da admin, fatelo in sessione privata. Altrimenti, al ricaricamento della pagina web, sarete dentro come admin e il sito non funzionerà come dovrebbe.
+### Utilizzo immagini
+- Le immagini caricate dagli utenti e dagli organizzatori vengono salvate nella cartella media, e vengono mostrate nelle pagine del profilo e degli eventi.
+- Le immagini sono tutte copyright-free, scaricate da pexels.com.
 
 
 

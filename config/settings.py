@@ -25,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^%r91k1%x2hp)4489=d+(811kpfk-ol4d32cj^t4jht-9n4yeq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True #keep it for local run
 
 ALLOWED_HOSTS = [
-'Gabryoo3.eu.pythonanywhere.com',
+'gabryoo3.eu.pythonanywhere.com',
 'localhost',
 '127.0.0.1',
 ]
@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.events',
     'apps.tickets',
-    'django_browser_reload',
 ]
 
 MIDDLEWARE = [
@@ -57,8 +56,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_browser_reload.middleware.BrowserReloadMiddleware',
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ['django_browser_reload']
+    MIDDLEWARE += ['django_browser_reload.middleware.BrowserReloadMiddleware']
 
 ROOT_URLCONF = 'config.urls'
 
@@ -128,7 +130,7 @@ USE_TZ = True
 # Static files (CSS, js, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]

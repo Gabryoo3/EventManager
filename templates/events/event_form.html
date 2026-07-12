@@ -25,7 +25,8 @@
                     {% endif %}
 
                     <div class="mb-4">
-                        <label for="{{ form.title.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Titolo dell'Evento</label>
+                        <label for="{{ form.title.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Titolo
+                            dell'Evento</label>
                         <input type="text" name="title" id="{{ form.title.id_for_label }}"
                                class="form-control border-2 {% if form.title.errors %}is-invalid{% endif %}"
                                value="{{ form.title.value|default:'' }}" required>
@@ -36,11 +37,15 @@
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-6 col-12">
-                            <label for="{{ form.category.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Categoria</label>
+                            <label for="{{ form.category.id_for_label }}"
+                                   class="form-label text-muted small fw-semibold mb-1">Categoria</label>
                             <select name="category" id="{{ form.category.id_for_label }}"
-                                    class="form-select border-2 {% if form.category.errors %}is-invalid{% endif %}" required>
+                                    class="form-select border-2 {% if form.category.errors %}is-invalid{% endif %}"
+                                    required>
                                 {% for choice in form.category.field.choices %}
-                                    <option value="{{ choice.0 }}" {% if form.category.value == choice.0 %}selected{% endif %}>
+                                    <option value="{{ choice.0 }}" {% if form.category.value == choice.0 %}selected
+                                            {% elif not form.category.value and choice.0 == request.user.main_category_id %}selected
+                                    {% endif %}>
                                         {{ choice.1 }}
                                     </option>
                                 {% endfor %}
@@ -50,7 +55,8 @@
                             {% endfor %}
                         </div>
                         <div class="col-md-6 col-12">
-                            <label for="{{ form.seats.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Biglietti Totali (Posti)</label>
+                            <label for="{{ form.seats.id_for_label }}"
+                                   class="form-label text-muted small fw-semibold mb-1">Biglietti Totali (Posti)</label>
                             <input type="number" name="seats" id="{{ form.seats.id_for_label }}"
                                    class="form-control border-2 {% if form.seats.errors %}is-invalid{% endif %}"
                                    value="{{ form.seats.value|default:'' }}" min="1" required>
@@ -62,16 +68,18 @@
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-6 col-12">
-                            <label for="{{ form.date.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Data Evento</label>
+                            <label for="{{ form.date.id_for_label }}"
+                                   class="form-label text-muted small fw-semibold mb-1">Data Evento</label>
                             <input type="date" name="date" id="{{ form.date.id_for_label }}"
                                    class="form-control border-2 {% if form.date.errors %}is-invalid{% endif %}"
-                                   value="{{ form.date.value|date:'Y-m-d'|default:''}}" required>
+                                   value="{{ form.date.value|date:'Y-m-d'|default:'' }}" required>
                             {% for error in form.date.errors %}
                                 <div class="invalid-feedback d-block">{{ error }}</div>
                             {% endfor %}
                         </div>
                         <div class="col-md-6 col-12">
-                            <label for="{{ form.time.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Ora Evento</label>
+                            <label for="{{ form.time.id_for_label }}"
+                                   class="form-label text-muted small fw-semibold mb-1">Ora Evento</label>
                             <input type="time" name="time" id="{{ form.time.id_for_label }}"
                                    class="form-control border-2 {% if form.time.errors %}is-invalid{% endif %}"
                                    value="{{ form.time.value|time:'H:i'|default:'' }}" required>
@@ -82,7 +90,8 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="{{ form.price.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Prezzo Biglietto (€)</label>
+                        <label for="{{ form.price.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Prezzo
+                            Biglietto (€)</label>
                         <input type="number" name="price" id="{{ form.price.id_for_label }}" step="0.01"
                                class="form-control border-2 {% if form.price.errors %}is-invalid{% endif %}"
                                value="{{ form.price.value|stringformat:'.2f'| default:'' }}" min="0" required>
@@ -91,16 +100,19 @@
                         {% endfor %}
                     </div>
                     <div class="mb-4">
-                        <label for="{{ form.description.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Descrizione dell'Evento</label>
+                        <label for="{{ form.description.id_for_label }}"
+                               class="form-label text-muted small fw-semibold mb-1">Descrizione dell'Evento</label>
                         <textarea name="description" id="{{ form.description.id_for_label }}" rows="4"
-                                  class="form-control border-2 {% if form.description.errors %}is-invalid{% endif %}" required>{{ form.description.value|default:'' }}</textarea>
+                                  class="form-control border-2 {% if form.description.errors %}is-invalid{% endif %}"
+                                  required>{{ form.description.value|default:'' }}</textarea>
                         {% for error in form.description.errors %}
                             <div class="invalid-feedback d-block">{{ error }}</div>
                         {% endfor %}
                     </div>
 
                     <div class="mb-5">
-                        <label for="{{ form.image.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Locandina / Immagine di Copertina</label>
+                        <label for="{{ form.image.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Locandina
+                            / Immagine di Copertina</label>
                         <input type="file" name="image" id="{{ form.image.id_for_label }}"
                                class="form-control border-2 {% if form.image.errors %}is-invalid{% endif %}">
                         {% for error in form.image.errors %}
@@ -112,13 +124,15 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-6 col-12">
-                            <label for="{{ address_form.street_address.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Via dell'evento</label>
+                            <label for="{{ address_form.street_address.id_for_label }}"
+                                   class="form-label text-muted small fw-semibold mb-1">Via dell'evento</label>
                             <input type="text" name="street_address" id="{{ address_form.street_address.id_for_label }}"
                                    class="form-control border-2 {% if address_form.street_address.errors %}is-invalid{% endif %}"
                                    value="{{ address_form.street_address.value|default:'' }}" required>
                         </div>
                         <div class="col-md-6 col-12">
-                            <label for="{{ address_form.city.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Città</label>
+                            <label for="{{ address_form.city.id_for_label }}"
+                                   class="form-label text-muted small fw-semibold mb-1">Città</label>
                             <input type="text" name="city" id="{{ address_form.city.id_for_label }}"
                                    class="form-control border-2 {% if address_form.city.errors %}is-invalid{% endif %}"
                                    value="{{ address_form.city.value|default:'' }}" required>
@@ -126,13 +140,15 @@
                     </div>
                     <div class="row g-3 mb-3">
                         <div class="col-md-6 col-12">
-                            <label for="{{ address_form.region.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Regione</label>
+                            <label for="{{ address_form.region.id_for_label }}"
+                                   class="form-label text-muted small fw-semibold mb-1">Regione</label>
                             <input type="text" name="region" id="{{ address_form.region.id_for_label }}"
                                    class="form-control border-2 {% if address_form.region.errors %}is-invalid{% endif %}"
                                    value="{{ address_form.region.value|default:'' }}" required>
                         </div>
                         <div class="col-md-6 col-12">
-                            <label for="{{ address_form.state.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Stato</label>
+                            <label for="{{ address_form.state.id_for_label }}"
+                                   class="form-label text-muted small fw-semibold mb-1">Stato</label>
                             <input type="text" name="state" id="{{ address_form.state.id_for_label }}"
                                    class="form-control border-2 {% if address_form.state.errors %}is-invalid{% endif %}"
                                    value="{{ address_form.state.value|default:'' }}" required>
@@ -141,7 +157,8 @@
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-6 col-12">
-                            <label for="{{ address_form.zip_code.id_for_label }}" class="form-label text-muted small fw-semibold mb-1">Codice postale</label>
+                            <label for="{{ address_form.zip_code.id_for_label }}"
+                                   class="form-label text-muted small fw-semibold mb-1">Codice postale</label>
                             <input type="text" name="zip_code" id="{{ address_form.zip_code.id_for_label }}"
                                    class="form-control border-2 {% if address_form.zip_code.errors %}is-invalid{% endif %}"
                                    value="{{ address_form.zip_code.value|default:'' }}" required>
@@ -149,10 +166,11 @@
                     </div>
 
                     <div class="d-flex justify-content-between gap-3 border-top pt-4">
-                        <a href="{% if form.instance.pk %}{% url 'events:event_list' %}{% else %}{% url 'events:event_list' %}{% endif %}"
+                        <a href="
+                                {% if is_update %}{% url 'events:event_list' %}{% else %}{% url 'events:event_list' %}{% endif %}"
                            class="btn btn-light px-4 fw-bold text-secondary">Annulla</a>
                         <button type="submit" class="btn btn-success px-5 fw-bold shadow-sm">
-                            {% if form.instance.pk %}Salva Modifiche{% else %}Pubblica Evento{% endif %}
+                            {% if is_update %}Salva Modifiche{% else %}Pubblica Evento{% endif %}
                         </button>
                     </div>
                 </form>

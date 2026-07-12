@@ -1,25 +1,27 @@
 {% extends 'base.html' %}
 {% block title %}Contatti{% endblock %}
 {% block content %}
-<div class="row justify-content-center pt-5">
-    <div class="col-12">
-        <h2 class="fw-bold text-center mb-4">Contattaci</h2>
-        <p class="text-muted text-center mb-5">Hai domande o hai bisogno di assistenza? Compila il modulo sottostante e ti risponderemo al più presto.</p>
-        <div class="card border-0 shadow-sm rounded-3 p-4">
-                <div class="mb-3">
-                    <label for="name" class="form-label fw-semibold">Nome</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+    <div class="row justify-content-center pt-5">
+            <h2 class="fw-bold text-center mb-4">Contattaci</h2>
+            <p class="text-muted text-center mb-5">Hai domande o hai bisogno di assistenza? Compila il modulo
+                sottostante e ti risponderemo al più presto.</p>
+            <form method="POST" enctype="multipart/form-data" action="{% url 'events:contact' %}">
+                {% csrf_token %}
+                <div class="card border-0 shadow-sm rounded-3 p-4 w-100">
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-semibold">Nome</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-semibold">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label fw-semibold">Messaggio</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Invia</button>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label fw-semibold">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label fw-semibold">Messaggio</label>
-                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" onclick="reload()">Invia</button>
-        </div>
+            </form>
     </div>
-</div>
 {% endblock %}

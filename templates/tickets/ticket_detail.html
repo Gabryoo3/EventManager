@@ -15,7 +15,7 @@
         <div class="col-md-6 col-12 text-muted">
             <h2 class="text-bold">{{ ticket.event.title }}</h2>
             <p class="badge fw-semibold text-success fs-5">Categoria: {{ ticket.event.category }}</p>
-            <h5>Organizzatore: <strong>{{ ticket.event.organizer }}</strong></h5>
+            <h5>Organizzatore: <strong><a href={% url 'account:organizer_detail' pk=ticket.event.organizer.pk %}>{{ ticket.event.organizer.stage_name }}</a></strong></h5>
             <h4 class=" fw-medium">Data: {{ ticket.event.date|date:"d M Y " }}</h4>
             <h5 class="text-dark">
                 Luogo: {{ ticket.event.location.street_address }}, {{ ticket.event.location.city }}({{ ticket.event.location.zip_code }}), {{ ticket.event.location.region }}, {{ ticket.event.location.state }}</h5>

@@ -5,16 +5,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const stageNameRow = document.querySelector('.field-stage_name');
     const mainCategoryRow = document.querySelector('.field-main_category');
     const profileImageRow = document.querySelector('.field-profile_image');
+    const organizerDescRow = document.querySelector('.field-organizer_description');
 
     function toggleOrganizerFields() {
         if (isOrganizerCheckbox && isOrganizerCheckbox.checked) {
             stageNameRow.style.display = 'block';
             mainCategoryRow.style.display = 'block';
             profileImageRow.style.display = 'block';
+            organizerDescRow.style.display = 'block'
         } else {
             stageNameRow.style.display = 'none';
             mainCategoryRow.style.display = 'none';
             profileImageRow.style.display = 'none';
+            organizerDescRow.style.display = 'none'
         }
     }
 

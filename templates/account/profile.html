@@ -66,15 +66,17 @@
                     {% if user.is_organizer %}
                         <div class="row justify-content-center">
                             <div class="col-md-6 col-12">
-                                <h4 class="border-bottom border-3">Parte organizzatore</h4>
+                                <h4 class="border-bottom border-3 mt-3">Parte organizzatore</h4>
                             </div>
                         </div>
                             <div class="row">
                                 <div class="col-md-6 col-12 pt-3">
                                     <h5 class="mb-1 py-1">Nome d'arte: <br> {{ account.stage_name }}</h5>
-                                    <h5 class="mb-1 py-1">Genere principale: <br> {{ account.main_category }}</h5>
                                 </div>
-                                <div class="col-12">
+                                 <div class="col-md-6 col-12 pt-3">
+                                     <h5 class="mb-1 py-1">Genere principale: <br> {{ account.main_category }}</h5>
+                                </div>
+                                <div class="col-12 mt-3">
                                     <h5 class="mb-1 py-1">Descrizione: <br> {{ account.organizer_description }}</h5>
                                 </div>
                             </div>

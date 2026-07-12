@@ -3,14 +3,13 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Count, F
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from django.views.generic import ListView, View, DeleteView, DetailView, TemplateView
+from django.views.generic import ListView, View, DeleteView, DetailView, TemplateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 
-from apps.account.models import Address
 from apps.account.forms import AddressCreationForm, AddressUpdateForm
 from .models import Event, Category
-from .forms import EventForm
+from .forms import EventForm, ContactForm
 # Create your views here.
 
 class EventListView(ListView):
@@ -144,6 +143,11 @@ class OrganizerEventsListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Event.objects.filter(organizer=self.request.user).order_by('date')
 
-class ContactUsView(TemplateView):
+class ContactUsView(FormView):
     template_name = 'contacts.html'
-
+    success_url = reverse_lazy('events:home')
+    success_message = 'Messaggio inviato con successo!'
+    form_class = ContactForm
+    def form_valid(self, form):
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
