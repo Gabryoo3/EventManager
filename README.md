@@ -18,7 +18,7 @@ Lanciare i seguenti comandi:
 - python manage.py makemigrations
 - python manage.py migrate
 
-Il database sarà prepopolato di default.
+Il database è prepopolato di default con 3 utenti, 3 organizzatori, due eventi ad organizzatore e una manciata di biglietti per utente.
 
 
 ## Ruoli utente
