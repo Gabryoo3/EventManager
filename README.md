@@ -1,4 +1,6 @@
 # EventsforIndies
+## URL
+- https://gabryoo3.eu.pythonanywhere.com
 ## Obbiettivo
 Questo progetto punta a creare una piattaforma per gestire eventi dedicati agli artisti indipendenti, di qualunque genere e categoria.
 ## Caratteristiche principali
